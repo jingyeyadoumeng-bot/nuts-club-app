@@ -33,8 +33,7 @@ function ncTicketPage(){
 const ncRender=render;
 render=function(){
  if(!ncProfile)return ncLogin();
- ncRender();
- if(page==='tickets')$('#view').innerHTML=ncTicketPage();
+ if(page==='tickets'){page='home';ncRender();page='tickets';$('#view').innerHTML=ncTicketPage()}else ncRender();
  if(page==='player')$('#view').insertAdjacentHTML('beforeend',card('会員アカウント','<p class="muted small">会員ID: '+esc(ncSession.user.id)+'</p><button class="btn secondary" onclick="ncLogout()">ログアウト</button>'));
  $('#nav').insertAdjacentHTML('beforeend','<button class="tab '+(page==='tickets'?'active':'')+'" onclick="go(\'tickets\')"><b>🎟</b><span>TICKET</span></button>');
 };
