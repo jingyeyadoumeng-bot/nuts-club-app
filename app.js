@@ -11,3 +11,15 @@ el('switch').onclick=()=>{register=!register;el('displayName').hidden=!register;
 el('submit').onclick=async()=>{let email=el('email').value.trim(),password=el('password').value;if(!email||password.length<6)return message('メールと6文字以上のパスワードを入力してください');el('submit').disabled=true;try{if(register){let d=await request('/auth/v1/signup','POST',{email,password,data:{display_name:el('displayName').value.trim()||email.split('@')[0]}});if(d.access_token){store(d);await showMember()}else message('確認メールを開いてからログインしてください')}else{store(await request('/auth/v1/token?grant_type=password','POST',{email,password}));await showMember()}}catch(e){message(e.message)}finally{el('submit').disabled=false}};
 el('reload').onclick=showMember;el('logout').onclick=async()=>{try{await request('/auth/v1/logout','POST')}catch{}store(null);el('member').hidden=true;el('login').hidden=false;message('ログアウトしました')};
 (async()=>{if(session){if(session.expires_at&&session.expires_at*1000<Date.now()&&!(await refreshSession()))return;await showMember()}})();
+async function loadTickets(){
+ const id=encodeURIComponent(session.user.id);
+ const [owned,types]=await Promise.all([
+ request('/rest/v1/member_tickets?select=id,ticket_type_id,status,expires_at&member_id=eq.'+id),
+ request('/rest/v1/ticket_types?select=id,name,description')
+ ]);
+ const byId=new Map(types.map(t=>[t.id,t]));
+ const host=document.getElementById('tickets');
+ host.replaceChildren();
+ if(!owned.length){host.textContent='保有チケットはありません';return}
+ for(const t of owned){const card=document.createElement('div');card.className='ticket';const label=document.createElement('strong');label.textContent=byId.get(t.ticket_type_id)?.name||'チケット';const detail=document.createElement('p');detail.textContent='状態: '+t.status+(t.expires_at?' / 有効期限: '+new Date(t.expires_at).toLocaleDateString('ja-JP'):'');card.append(label,detail);host.append(card)}
+}
