@@ -20,6 +20,6 @@ async function loadTickets(){
  const byId=new Map(types.map(t=>[t.id,t]));
  const host=document.getElementById('tickets');
  host.replaceChildren();
- if(!owned.length){host.textContent='保有チケットはありません';return}
- for(const t of owned){const card=document.createElement('div');card.className='ticket';const label=document.createElement('strong');label.textContent=byId.get(t.ticket_type_id)?.name||'チケット';const detail=document.createElement('p');detail.textContent='状態: '+t.status+(t.expires_at?' / 有効期限: '+new Date(t.expires_at).toLocaleDateString('ja-JP'):'');card.append(label,detail);host.append(card)}
+ if(!owned.some(t=>t.status==='active')){host.textContent='利用できるチケットはありません';return}
+ for(const t of owned.filter(t=>t.status==='active')){const card=document.createElement('div');card.className='ticket';const label=document.createElement('strong');label.textContent=byId.get(t.ticket_type_id)?.name||'チケット';const code=document.createElement('p');code.textContent='チケットID: #'+t.id;code.style.fontWeight='bold';const detail=document.createElement('p');detail.textContent='状態: '+t.status+(t.expires_at?' / 有効期限: '+new Date(t.expires_at).toLocaleDateString('ja-JP'):'');card.append(label,code,detail);host.append(card)}
 }
