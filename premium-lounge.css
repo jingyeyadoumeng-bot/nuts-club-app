@@ -16,3 +16,32 @@ nav{border-color:#6c552d!important}
 table{border-collapse:collapse}th{color:#e5c681}td,th{border-bottom:1px solid #59482c55;padding:9px}
 small,.muted{color:#b6a88d}
 @media(max-width:600px){.panel{border-radius:17px}.stat,.ticket,.item{border-radius:13px}}
+
+/* Premium dashboard v2 — deliberately no .vip-card rules */
+.wrap{max-width:540px;padding-top:20px}
+header{padding:13px 8px 10px}
+header .small{font-size:10px;letter-spacing:4px}
+header h1{font-size:clamp(28px,7vw,39px);margin:8px 0}
+header p{margin:5px 0;font-size:12px;color:#ae9a75}
+#occupancyLabel,#tablesLabel,#occupancyUpdated{display:inline-block;margin:5px 7px;font-size:11px!important;color:#d0b67d!important}
+#club-home{padding:26px 18px 22px;margin-top:20px;background:linear-gradient(155deg,#171615,#0b0c0f 75%);border-color:#735b36}
+.luxury-eyebrow{text-align:center;color:#bba16e;font-size:10px;letter-spacing:3px;margin-bottom:7px}
+.luxury-home h2{text-align:center;font:700 27px Georgia,serif;letter-spacing:3px;margin:4px 0;color:#e9d19c}
+.luxury-subtitle{text-align:center;font-size:10px;letter-spacing:2px;color:#978665;margin:0 0 24px}
+.luxury-dashboard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.luxury-dashboard button{min-width:0;margin:0;padding:19px 9px 16px;min-height:140px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;background:linear-gradient(150deg,#25211b,#111216 65%,#211b14)!important;border:1px solid #755c36;border-radius:14px;box-shadow:inset 0 1px #e9c58123,0 7px 20px #0008;color:#f4e6c7!important}
+.luxury-dashboard button span{font-size:27px;color:#e1ba6f}
+.luxury-dashboard button strong{font-size:12px;letter-spacing:1px;color:#f1d49a}
+.luxury-dashboard button small{font-size:10px;letter-spacing:0;color:#b9a98b}
+.luxury-note{text-align:center;font:10px Georgia,serif;letter-spacing:2px;color:#8f7953;margin-top:24px}
+.luxury-note span{color:#d5b373;padding:0 8px}
+.bottom-nav{justify-content:space-around;gap:3px;padding:8px 5px calc(8px + env(safe-area-inset-bottom));background:#0b0c10f7;box-shadow:0 -7px 25px #000a}
+.bottom-nav button,.bottom-nav button:not(.secondary){min-width:0;flex:1;width:auto;margin:0;padding:11px 3px;font-size:10px;line-height:1.3;white-space:normal;word-break:keep-all;background:#1a1a1d!important;border:1px solid #59482c!important;border-radius:9px;box-shadow:none!important;color:#e9d7b4!important;text-shadow:none!important}
+.bottom-nav button[aria-current="page"],.bottom-nav button[aria-current="page"]:not(.secondary){background:linear-gradient(145deg,#d4b16e,#a57c3c)!important;border-color:#e8c78b!important;color:#16120c!important;font-weight:900}
+button:not(.secondary):not(.bottom-nav button):not(.luxury-dashboard button){color:#1b140b!important;text-shadow:none!important}
+#club-rank,#club-live,#club-match,#club-quests,#club-talk{padding:20px 17px}
+#club-rank>h2,#club-live>h2,#club-match>h2,#club-quests>h2,#club-talk>h2{font:700 21px Georgia,serif;border-bottom:1px solid #695334;padding-bottom:15px}
+.ticket{padding:16px;margin:12px 0;background:linear-gradient(145deg,#242019,#111215);border-color:#69532e}
+.ticket strong{color:#f1d39a}
+.ticket button{font-size:13px}
+@media(max-width:450px){.wrap{padding-left:12px;padding-right:12px}.bottom-nav button{font-size:9px!important;padding:10px 1px!important}.luxury-dashboard{gap:9px}.luxury-dashboard button{min-height:125px}.luxury-dashboard button strong{font-size:11px}}
