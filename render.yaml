@@ -2,5 +2,10 @@ services:
   - type: web
     name: nuts-club-app
     runtime: static
-    buildCommand: echo 'No build required'
+    buildCommand: echo 'Static NUTS CLUB build'
     staticPublishPath: .
+    autoDeployTrigger: commit
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
