@@ -45,3 +45,25 @@ button:not(.secondary):not(.bottom-nav button):not(.luxury-dashboard button){col
 .ticket strong{color:#f1d39a}
 .ticket button{font-size:13px}
 @media(max-width:450px){.wrap{padding-left:12px;padding-right:12px}.bottom-nav button{font-size:9px!important;padding:10px 1px!important}.luxury-dashboard{gap:9px}.luxury-dashboard button{min-height:125px}.luxury-dashboard button strong{font-size:11px}}
+
+/* Member home v3: compact overview, original VIP card untouched */
+.luxury-home-intro{text-align:center;padding:17px 8px 4px}
+.luxury-home-intro h2{font:700 20px Georgia,serif;letter-spacing:2px;margin:8px 0;color:#e7c887}
+.luxury-home-intro p{color:#ab9874;font-size:12px;margin:5px 0}
+.nuts-home-active #club-profile .vip-card{margin-top:14px}
+.nuts-home-active #club-profile .vip-card-caption{margin-bottom:8px}
+.nuts-home-active #club-profile .vip-progress-panel,
+.nuts-home-active #club-profile #ticket-section,
+.nuts-home-active #club-profile #ticket-section~.panel{display:none!important}
+.nuts-home-active #club-profile .stats{margin:16px 0 0}
+.nuts-home-active #club-profile .stats .stat{background:linear-gradient(145deg,#211d17,#111214);padding:17px}
+.nuts-home-active #club-profile .stats .stat b{font-size:25px}
+#home-tournament{margin-top:17px;padding:19px;background:linear-gradient(145deg,#1c1b1a,#0d0e11)}
+.home-tournament-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.home-tournament-head h2{font:700 17px Georgia,serif;margin:0;letter-spacing:1px}
+.home-tournament-head button{width:auto;margin:0;padding:8px 11px;font-size:11px}
+#home-tournament-content{padding-top:14px;font-size:13px;color:#d9cbb0}
+#home-tournament-content strong{display:block;font-size:17px;color:#f3d48f}
+#home-tournament-content p{margin:7px 0}
+.bottom-nav button[aria-current="page"]{color:#1b130a!important}
+@media(max-width:440px){.home-tournament-head h2{font-size:15px}.home-tournament-head button{font-size:10px}}
