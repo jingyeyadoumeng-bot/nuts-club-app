@@ -16,14 +16,37 @@ async function loadChipHistory(){const host=el('chip-history');const id=encodeUR
 async function loadTickets(){
  const id=encodeURIComponent(session.user.id);
  const [owned,types]=await Promise.all([
- request('/rest/v1/member_tickets?select=id,ticket_type_id,status,expires_at&member_id=eq.'+id),
+ request('/rest/v1/member_tickets?select=id,ticket_type_id,status,expires_at,used_at,issued_at&member_id=eq.'+id+'&order=issued_at.desc'),
  request('/rest/v1/ticket_types?select=id,name,description')
  ]);
  const byId=new Map(types.map(t=>[t.id,t]));
- const host=document.getElementById('tickets');
- host.replaceChildren();
- if(!owned.some(t=>t.status==='available'&&(!t.expires_at||new Date(t.expires_at)>new Date()))){host.textContent='利用できるチケットはありません'}
- for(const t of owned.filter(t=>t.status==='available'&&(!t.expires_at||new Date(t.expires_at)>new Date()))){const card=document.createElement('div');card.className='ticket';const label=document.createElement('strong');label.textContent=byId.get(t.ticket_type_id)?.name||'チケット';const code=document.createElement('p');code.textContent='チケットID: #'+t.id;code.style.fontWeight='bold';const detail=document.createElement('p');detail.textContent='状態: '+t.status+(t.expires_at?' / 有効期限: '+new Date(t.expires_at).toLocaleDateString('ja-JP'):'');card.append(label,code,detail);host.append(card)}const used=owned.filter(t=>t.status==='used');if(used.length){const h=document.createElement('h3');h.textContent='使用履歴';host.append(h);for(const t of used){const p=document.createElement('p');p.textContent='チケット #'+t.id+' · 使用済み';host.append(p)}}
+ const host=el('tickets');host.replaceChildren();
+ const available=owned.filter(t=>t.status==='available'&&(!t.expires_at||new Date(t.expires_at)>new Date()));
+ const used=owned.filter(t=>t.status==='used');
+ const makeTicket=(t,isUsed)=>{
+  const kind=byId.get(t.ticket_type_id);
+  const card=document.createElement('article');card.className='nuts-ticket-card'+(isUsed?' is-used':'');
+  const top=document.createElement('div');top.className='nuts-ticket-top';
+  const brand=document.createElement('span');brand.textContent='♠ NUTS CLUB  ·  EXCLUSIVE TICKET';
+  const status=document.createElement('span');status.className='nuts-ticket-status';status.textContent=isUsed?'✓ 使用済み':'✦ 利用可能';top.append(brand,status);
+  const title=document.createElement('h3');title.textContent=kind?.name||'SPECIAL TICKET';
+  const detail=document.createElement('p');detail.className='nuts-ticket-detail';detail.textContent=kind?.description||'NUTS CLUB 会員限定チケット';
+  const bottom=document.createElement('div');bottom.className='nuts-ticket-bottom';
+  const number=document.createElement('span');number.textContent='TICKET NO. '+String(t.id).padStart(6,'0');
+  const date=document.createElement('span');date.textContent=isUsed?(t.used_at?'使用日 '+new Date(t.used_at).toLocaleDateString('ja-JP'):'使用済み'):(t.expires_at?'期限 '+new Date(t.expires_at).toLocaleDateString('ja-JP'):'有効期限なし');bottom.append(number,date);
+  card.append(top,title,detail,bottom);
+  if(isUsed){const stamp=document.createElement('div');stamp.className='nuts-ticket-stamp';stamp.textContent='USED';card.append(stamp)}
+  else{const btn=document.createElement('button');btn.className='nuts-ticket-use';btn.type='button';btn.textContent='このチケットを使用する';btn.onclick=async()=>{
+   if(!confirm('店舗スタッフに確認してから使用してください。\n「'+(kind?.name||'チケット')+'」を使用済みにしますか？\nこの操作は取り消せません。'))return;
+   btn.disabled=true;btn.textContent='処理中...';
+   try{const result=await request('/rest/v1/rpc/nuts_use_my_ticket','POST',{p_ticket_id:t.id});if(result!==true)throw Error('使用できませんでした。使用済みまたは期限切れの可能性があります');await loadTickets()}catch(e){alert(e.message);btn.disabled=false;btn.textContent='このチケットを使用する'}
+  };card.append(btn)}
+  return card
+ };
+ const heading=document.createElement('div');heading.className='nuts-ticket-section-title';heading.textContent='AVAILABLE  /  利用可能 '+available.length+'枚';host.append(heading);
+ if(!available.length){const p=document.createElement('p');p.className='nuts-ticket-empty';p.textContent='利用できるチケットはありません';host.append(p)}
+ for(const t of available)host.append(makeTicket(t,false));
+ if(used.length){const headingUsed=document.createElement('div');headingUsed.className='nuts-ticket-section-title';headingUsed.textContent='HISTORY  /  使用済み '+used.length+'枚';host.append(headingUsed);for(const t of used)host.append(makeTicket(t,true))}
 }
 
 setInterval(async()=>{if(!session?.refresh_token)return;if(!session.expires_at||session.expires_at*1000<Date.now()+5*60*1000)await refreshSession()},60000);
