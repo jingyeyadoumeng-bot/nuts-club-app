@@ -67,3 +67,12 @@ button:not(.secondary):not(.bottom-nav button):not(.luxury-dashboard button){col
 #home-tournament-content p{margin:7px 0}
 .bottom-nav button[aria-current="page"]{color:#1b130a!important}
 @media(max-width:440px){.home-tournament-head h2{font-size:15px}.home-tournament-head button{font-size:10px}}
+
+/* PWA install prompt */
+#nuts-install-hint{position:fixed;z-index:30;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:calc(86px + env(safe-area-inset-bottom));max-width:520px;margin:auto;background:linear-gradient(135deg,#282219,#0e0f12);border:1px solid #a6884f;border-radius:16px;padding:15px 16px;box-shadow:0 14px 45px #000c;display:flex;align-items:center;justify-content:space-between;gap:12px}
+#nuts-install-hint strong{color:#f2d596;font-size:13px}
+#nuts-install-hint p{font-size:11px;color:#cfc1a3;margin:5px 0 0;line-height:1.6}
+.nuts-install-actions{display:flex;gap:5px;align-items:center}
+#nuts-install-hint button{width:auto;margin:0;padding:9px 10px;font-size:11px;white-space:nowrap}
+#nuts-install-close{font-size:18px!important;padding:5px 10px!important}
+@media(max-width:390px){#nuts-install-hint{align-items:flex-start;flex-direction:column}.nuts-install-actions{width:100%;justify-content:flex-end}}
