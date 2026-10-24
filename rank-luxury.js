@@ -12,7 +12,7 @@ const table=e('div','nuts-rank-table');const head=e('div','nuts-rank-table-head'
 rows.slice(3).forEach((r,j)=>{const line=e('div','nuts-rank-line');line.append(e('span','nuts-rank-number',String(j+4)),e('span','nuts-rank-user','♠  '+String(r.display_name||'MEMBER')),e('span','nuts-rank-value',score(r.monthly_change)));table.append(line)});
 if(!rows.length)table.append(e('p','nuts-rank-empty','今月のランキング参加者はまだいません'));
 else if(rows.length<=3)table.append(e('p','nuts-rank-empty','4位以降の参加者はまだいません'));
-scene.append(table);host.append(scene);
+scene.append(table);const prizes=e('section','nuts-rank-prizes');prizes.append(e('h3','','🏆 月間ランキング プライズ'));for(const [name,values] of [['男性ランキング',['1位 10,000Pt','2位 8,000Pt','3位 6,000Pt']],['女性ランキング',['1位 5,000Pt','2位 2,000Pt','3位 300BB']]]){const panel=e('div','nuts-rank-prize-group');panel.append(e('h4','',name));values.forEach((value,i)=>panel.append(e('div','nuts-rank-prize-row',value)));prizes.append(panel)}prizes.append(e('p','nuts-rank-prize-note','※ プライズ併用なし'));scene.append(prizes);host.append(scene);
 const footer=e('div','nuts-rank-footer');footer.append(e('p','','先月末からの預かりチップ増減で集計 · 毎月1日 6:00更新'));host.append(footer)
 };
 })();
