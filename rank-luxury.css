@@ -25,3 +25,37 @@
 .nuts-rank-table{position:relative;z-index:3;margin-top:13px!important;border:1px solid #8f703e!important;background:linear-gradient(#100c09ee,#030303f5)!important;box-shadow:0 0 18px #000}
 .nuts-rank-line{padding:13px 10px!important}.nuts-rank-table-head{background:#1d160f!important}
 @media(max-width:375px){.nuts-rank-podium{min-height:300px!important;padding-top:55px!important}.nuts-rank-person{font-size:11px!important}.nuts-rank-score{font-size:10px!important}.nuts-rank-step{height:65px!important}.nuts-rank-place.gold .nuts-rank-step{height:102px!important}}
+
+
+/* Edition 03 — quiet luxury: obsidian, champagne, brushed metal */
+#club-rank{border:1px solid #6f604b!important;border-radius:16px!important;background:#090909!important;box-shadow:0 25px 70px #000b!important}
+.nuts-rank-scene{isolation:isolate;background:radial-gradient(ellipse at 50% 32%,#8a704027 0%,transparent 44%),linear-gradient(142deg,#222224 0%,#080809 38%,#141415 68%,#050505 100%)!important;padding:34px 17px 22px!important;position:relative;overflow:hidden}
+.nuts-rank-scene:before{content:"";position:absolute;inset:0;z-index:-1;filter:none!important;background:repeating-linear-gradient(128deg,transparent 0 104px,#d2d0c70c 105px,#d2d0c70b 106px,transparent 107px 185px),linear-gradient(98deg,transparent 0 12%,#fff1 12.2%,transparent 12.5% 81%,#fff1 81.2%,transparent 81.5%);pointer-events:none}
+.nuts-rank-scene:after{content:"";position:absolute;left:15%;right:15%;top:178px;height:260px;background:radial-gradient(ellipse,#e6cc8d17,transparent 69%);filter:blur(18px);z-index:-1;pointer-events:none}
+.nuts-rank-heading{padding:3px 0 19px!important}
+.nuts-rank-brand{font:500 11px Georgia,serif!important;letter-spacing:5px!important;color:#c7b48c!important;text-shadow:none!important}
+.nuts-rank-heading h2{font:400 clamp(24px,6vw,36px) Georgia,serif!important;letter-spacing:3px!important;margin:16px 0 7px!important;color:#e6d7b7!important;text-shadow:none!important}
+.nuts-rank-heading p{font-size:12px!important;letter-spacing:3px;color:#b7aa92!important}
+.nuts-rank-month{font-size:12px;letter-spacing:1px;padding:8px 22px!important;border:1px solid #72644f!important;border-radius:3px!important;background:#111112c9!important;box-shadow:none!important;color:#d5c8ae!important}
+.nuts-rank-podium{padding-top:23px!important;min-height:276px!important;border-bottom:1px solid #8b795b!important;box-shadow:none!important;gap:10px!important}
+.nuts-rank-crown{font-size:23px!important;margin-bottom:12px!important;color:#a99a7b!important;filter:none!important;text-shadow:none!important}
+.nuts-rank-place.gold .nuts-rank-crown{font-size:31px!important;color:#d8c291!important}
+.nuts-rank-avatar{width:clamp(53px,16vw,80px)!important;height:clamp(53px,16vw,80px)!important;background:radial-gradient(circle at 35% 22%,#44413b,#151515 52%,#060606 100%)!important;border:1px solid #97896f!important;box-shadow:0 0 0 4px #090909,0 0 0 5px #72664e!important;font-size:25px!important;color:#d3c09a!important}
+.nuts-rank-place.gold .nuts-rank-avatar{width:clamp(67px,20vw,96px)!important;height:clamp(67px,20vw,96px)!important;border-color:#cfb77f!important;box-shadow:0 0 0 5px #0b0b0b,0 0 0 6px #bda676,0 8px 32px #c9ac7533!important}
+.nuts-rank-place.silver .nuts-rank-avatar{border-color:#a7a8ab!important;box-shadow:0 0 0 4px #090909,0 0 0 5px #9b9da0!important}
+.nuts-rank-place.bronze .nuts-rank-avatar{border-color:#a8876b!important;box-shadow:0 0 0 4px #090909,0 0 0 5px #9a7558!important}
+.nuts-rank-person{margin-top:14px!important;font-size:12px!important;letter-spacing:.3px;font-weight:600!important;background:none!important;text-shadow:none!important;color:#f0e8d9!important}
+.nuts-rank-score{font-size:clamp(10px,3vw,15px)!important;font-weight:600!important;color:#d6c19a!important;background:none!important;border:0!important;padding:0!important;margin:8px 0 14px!important;text-shadow:none!important}
+.nuts-rank-place.gold .nuts-rank-score{font-size:clamp(11px,3.2vw,17px)!important;color:#e3c68c!important;border:0!important}
+.nuts-rank-step{height:55px!important;background:linear-gradient(135deg,#353638,#1d1e20 52%,#313234)!important;border:1px solid #777777!important;border-bottom:0!important;border-radius:3px 3px 0 0!important;box-shadow:inset 0 1px #ffffff26!important;font:400 21px Georgia,serif!important;color:#c4c5c8!important}
+.nuts-rank-place.gold .nuts-rank-step{height:85px!important;background:linear-gradient(135deg,#85724f,#3e3628 53%,#786746)!important;border-color:#a9956b!important;font:400 30px Georgia,serif!important;color:#f4e4c4!important}
+.nuts-rank-place.bronze .nuts-rank-step{background:linear-gradient(135deg,#634b3d,#342923 53%,#604838)!important;border-color:#866d5a!important;color:#d7b69c!important}
+.nuts-rank-table{margin-top:24px!important;border:1px solid #49433b!important;border-radius:7px!important;background:#0e0e0ff2!important;box-shadow:none!important}
+.nuts-rank-table-head{background:#171717!important;color:#bfb19a!important;letter-spacing:1px}
+.nuts-rank-line{padding:14px 11px!important;border-color:#ffffff12!important}
+.nuts-rank-number{font-size:14px!important;color:#b9a580!important}
+.nuts-rank-user{color:#e8e4dd!important}
+.nuts-rank-value{color:#d7c29b!important}
+.nuts-rank-footer{background:#090909!important}
+.nuts-rank-settings{border-color:#74644a!important;color:#d8c8a9!important;background:#151515!important;border-radius:5px!important}
+@media(max-width:375px){.nuts-rank-podium{min-height:255px!important;padding-top:15px!important;gap:5px!important}.nuts-rank-place.gold .nuts-rank-step{height:74px!important}.nuts-rank-step{height:49px!important}}
