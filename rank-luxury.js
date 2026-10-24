@@ -2,7 +2,7 @@
 function e(tag,cls,txt){const x=document.createElement(tag);if(cls)x.className=cls;if(txt!==undefined)x.textContent=txt;return x}
 function score(v){const n=Number(v)||0;return (n>0?'+':'')+n.toLocaleString('ja-JP')+' 点'}
 window.nutsRenderLuxuryRanking=function(rows,host){
-const existing=host.querySelector('button');host.replaceChildren();
+host.replaceChildren();
 const scene=e('div','nuts-rank-scene');
 const heading=e('div','nuts-rank-heading');heading.append(e('div','nuts-rank-brand','♠ NUTS CLUB'),e('h2','', 'MONTHLY RANKING'),e('p','', '月間チップ増加ランキング'));
 const d=new Date();const japan=new Date(d.toLocaleString('en-US',{timeZone:'Asia/Tokyo'}));if(japan.getDate()===1&&japan.getHours()<6)japan.setMonth(japan.getMonth()-1);
@@ -13,6 +13,6 @@ rows.slice(3).forEach((r,j)=>{const line=e('div','nuts-rank-line');line.append(e
 if(!rows.length)table.append(e('p','nuts-rank-empty','今月のランキング参加者はまだいません'));
 else if(rows.length<=3)table.append(e('p','nuts-rank-empty','4位以降の参加者はまだいません'));
 scene.append(table);host.append(scene);
-const footer=e('div','nuts-rank-footer');footer.append(e('p','','先月末からの預かりチップ増減で集計 · 毎月1日 6:00更新'));if(existing){existing.classList.add('nuts-rank-settings');footer.append(existing)}host.append(footer)
+const footer=e('div','nuts-rank-footer');footer.append(e('p','','先月末からの預かりチップ増減で集計 · 毎月1日 6:00更新'));host.append(footer)
 };
 })();
