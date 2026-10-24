@@ -1,0 +1,20 @@
+{
+  "name": "NUTS CLUB",
+  "short_name": "NUTS",
+  "description": "THE NUTS 会員証・ポイント・クエスト・トーナメント情報",
+  "lang": "ja",
+  "id": "/member.html",
+  "start_url": "/member.html#home",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#090a0d",
+  "theme_color": "#090a0d",
+  "icons": [
+    {
+      "src": "/nuts-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
