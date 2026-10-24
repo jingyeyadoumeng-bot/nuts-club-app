@@ -59,3 +59,31 @@
 .nuts-rank-footer{background:#090909!important}
 .nuts-rank-settings{border-color:#74644a!important;color:#d8c8a9!important;background:#151515!important;border-radius:5px!important}
 @media(max-width:375px){.nuts-rank-podium{min-height:255px!important;padding-top:15px!important;gap:5px!important}.nuts-rank-place.gold .nuts-rank-step{height:74px!important}.nuts-rank-step{height:49px!important}}
+
+
+/* Edition 04: editorial luxury leaderboard, no illustration, no podium blocks */
+#club-rank{border-radius:18px!important;background:#090909!important}
+.nuts-rank-scene{background:linear-gradient(130deg,#1b1b1d 0%,#0a0a0b 42%,#111112 100%)!important;padding:28px 18px 20px!important}
+.nuts-rank-scene:before{background:repeating-linear-gradient(138deg,transparent 0 105px,#ffffff06 106px,transparent 108px 240px)!important}
+.nuts-rank-heading{padding-bottom:21px!important}
+.nuts-rank-heading h2{font-size:clamp(24px,6vw,35px)!important;letter-spacing:2px!important}
+.nuts-rank-showcase{display:block;margin-top:6px}
+.nuts-rank-champion{position:relative;overflow:hidden;min-height:260px;padding:27px 12px 23px;border:1px solid #bca477;border-radius:13px;text-align:center;background:radial-gradient(ellipse at 50% 0%,#b49a6740,transparent 55%),linear-gradient(145deg,#2a2722,#0b0b0c 52%,#211d18);box-shadow:0 13px 35px #0008,inset 0 1px #f6e3bd66}
+.nuts-rank-champion:before,.nuts-rank-champion:after{content:"";position:absolute;width:90px;height:90px;border:1px solid #c9af7e66;transform:rotate(45deg);pointer-events:none}
+.nuts-rank-champion:before{top:-62px;left:-55px}.nuts-rank-champion:after{bottom:-62px;right:-55px}
+.nuts-rank-champion-eyebrow{font:11px Georgia,serif;letter-spacing:2px;color:#c9b48a}
+.nuts-rank-champion-medal{font:italic 70px Georgia,serif;color:#ead5a6;line-height:1.2;margin:9px auto 1px;text-shadow:0 5px 25px #c7a46b6b}
+.nuts-rank-champion-name{font-size:clamp(19px,5.6vw,29px);font-weight:650;letter-spacing:1px;color:#fff8ea;overflow-wrap:anywhere}
+.nuts-rank-champion-score{font:600 clamp(23px,6.5vw,34px) Georgia,serif;color:#e9c989;margin:13px 0 6px;font-variant-numeric:tabular-nums}
+.nuts-rank-champion-caption{font:10px Georgia,serif;letter-spacing:2px;color:#a99a7f}
+.nuts-rank-runners{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:11px;margin-top:12px}
+.nuts-rank-runner{min-width:0;min-height:155px;padding:17px 8px 15px;text-align:center;border:1px solid #797b80;border-radius:10px;background:linear-gradient(150deg,#303238,#111214 70%,#222326);box-shadow:0 8px 20px #0008}
+.nuts-rank-runner.bronze{border-color:#99765c;background:linear-gradient(150deg,#352b26,#11100f 70%,#29201c)}
+.nuts-rank-runner-label{font:10px Georgia,serif;letter-spacing:1px;color:#c2c6cc}
+.nuts-rank-runner.bronze .nuts-rank-runner-label{color:#c8a78e}
+.nuts-rank-runner-medal{font:italic 45px Georgia,serif;color:#c7cbd1;margin:9px 0 6px}
+.nuts-rank-runner.bronze .nuts-rank-runner-medal{color:#c8a080}
+.nuts-rank-runner-name{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;color:#f1ede6}
+.nuts-rank-runner-score{margin-top:9px;font-size:clamp(12px,3.5vw,17px);font-weight:600;color:#e4d5bc;white-space:nowrap}
+.nuts-rank-table{margin-top:20px!important}
+@media(min-width:600px){.nuts-rank-champion{min-height:300px}.nuts-rank-runners{gap:16px}.nuts-rank-runner{min-height:170px}}
