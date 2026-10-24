@@ -11,7 +11,7 @@
   "theme_color": "#090a0d",
   "icons": [
     {
-      "src": "/nuts-icon.svg",
+      "src": "/nuts-icon.svg?v=8",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
