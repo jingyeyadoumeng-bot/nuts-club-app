@@ -22,8 +22,8 @@ async function loadTickets(){
  ]);
  const byId=new Map(types.map(t=>[t.id,t]));
  const host=el('tickets');host.replaceChildren();
- const available=owned.filter(t=>t.status==='available'&&(!t.expires_at||new Date(t.expires_at)>new Date()));
- const used=owned.filter(t=>t.status==='used');
+ const available=owned.filter(t=>t.status==='available'&&(!t.expires_at||new Date(t.expires_at)>new Date())).sort((a,b)=>new Date(b.issued_at||0)-new Date(a.issued_at||0)||Number(b.id)-Number(a.id));
+ const used=owned.filter(t=>t.status==='used').sort((a,b)=>new Date(b.issued_at||0)-new Date(a.issued_at||0)||Number(b.id)-Number(a.id));
  const makeTicket=(t,isUsed)=>{
   const kind=byId.get(t.ticket_type_id);
   const card=document.createElement('article');card.className='nuts-ticket-card'+(isUsed?' is-used':'');
