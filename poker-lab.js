@@ -51,10 +51,10 @@ const arenaTheme=node('style');arenaTheme.textContent=`
 @media(max-width:500px){#club-lab .arena-entry{padding:24px 20px;min-height:440px}#club-lab .arena-title{margin-top:75px;font-size:43px}#club-lab .arena-symbol{right:12px;top:80px;font-size:95px}}
 `;document.head.append(arenaTheme);function renderRangeGuide(target){
 const section=node('section','range-guide');
-section.innerHTML='<div class="range-head"><span>REFERENCE / PREFLOP</span><h3>HAND RANGE <em>CHART</em></h3><p>人数とポジションを選択して、オープンレイズの目安を確認。</p></div><div class="range-controls"><label>テーブル人数<select class="range-count"></select></label><label>ポジション<select class="range-position"></select></label></div><div class="range-summary"></div><div class="range-matrix"></div><div class="range-legend"><span><i class="range-dot range-open"></i>オープンレイズ候補</span><span><i class="range-dot range-fold"></i>フォールド候補</span></div><p class="range-note">※ 全員フォールドで自分まで回った場面のRFI（最初のレイズ）用の簡易参考表。100BB・一般的なキャッシュゲームを想定。厳密なGTO頻度ではありません。相手のレイズ・リンプ、スタック、レーキ等によって変わります。</p>';
+section.innerHTML='<div class="range-head"><span>REFERENCE / PREFLOP</span><h3>HAND RANGE <em>CHART</em></h3><p>人数とポジションを選択して、オープンレイズの目安を確認。</p></div><div class="range-controls"><label>テーブル人数<select class="range-count"></select></label><label>ポジション<select class="range-position"></select></label></div><div class="range-position-tabs"></div><div class="range-summary"></div><div class="range-workspace"><div class="range-matrix"></div><div class="range-inspector"><div class="range-inspector-title">ACTION BREAKDOWN</div><div class="range-stats"></div><div class="range-selected">ハンドを選ぶと詳細を表示</div></div></div><div class="range-legend"><span><i class="range-dot range-open"></i>オープンレイズ候補</span><span><i class="range-dot range-fold"></i>フォールド候補</span></div><p class="range-note">※ 全員フォールドで自分まで回った場面のRFI（最初のレイズ）用の簡易参考表。100BB・一般的なキャッシュゲームを想定。厳密なGTO頻度ではありません。相手のレイズ・リンプ、スタック、レーキ等によって変わります。</p>';
 const modeBox=node('div','range-controls','<label>アクション<select class="range-mode"><option value="defend">相手のレイズに対応（3BET / CALL / FOLD）</option><option value="rfi">自分からオープンレイズ</option></select></label><label class="range-villain-wrap">レイズした相手<select class="range-villain"></select></label>');section.querySelector('.range-controls').after(modeBox);
 const mode=modeBox.querySelector('.range-mode'),villain=modeBox.querySelector('.range-villain'),villainWrap=modeBox.querySelector('.range-villain-wrap'),legend=section.querySelector('.range-legend'),note=section.querySelector('.range-note');
-const count=section.querySelector('.range-count'),pos=section.querySelector('.range-position'),matrix=section.querySelector('.range-matrix'),summary=section.querySelector('.range-summary');
+const count=section.querySelector('.range-count'),pos=section.querySelector('.range-position'),matrix=section.querySelector('.range-matrix'),summary=section.querySelector('.range-summary'),tabs=section.querySelector('.range-position-tabs'),stats=section.querySelector('.range-stats'),selected=section.querySelector('.range-selected');
 for(let n=2;n<=9;n++){const o=document.createElement('option');o.value=n;o.textContent=n+'人卓'+(n===6?'（6MAX）':n===9?'（9MAX）':'');if(n===9)o.selected=true;count.append(o)}
 const positions=n=>n===2?['BTN/SB','BB']:n===3?['BTN','SB','BB']:n===4?['CO','BTN','SB','BB']:n===5?['HJ','CO','BTN','SB','BB']:n===6?['UTG','HJ','CO','BTN','SB','BB']:n===7?['UTG','MP','HJ','CO','BTN','SB','BB']:n===8?['UTG','UTG+1','MP','HJ','CO','BTN','SB','BB']:['UTG','UTG+1','MP','LJ','HJ','CO','BTN','SB','BB'];
 const rank='AKQJT98765432';
@@ -67,7 +67,7 @@ const n=Number(count.value),p=pos.value,order=positions(n),idx=order.indexOf(p),
 const opens=['UTG','UTG+1','MP','LJ','HJ','CO','BTN','BTN/SB','SB'];
 const width=p==='BTN'||p==='BTN/SB'?0:p==='SB'?1:p==='CO'?2:p==='HJ'?3:p==='LJ'?4:p==='MP'?5:p==='UTG+1'?6:7;
 const earlyAdjust=n<=5?1:n===6?0:n>=8?-1:0;
-let selected=0;
+let selected=0,raiseCombos=0,callCombos=0,foldCombos=0;
 matrix.replaceChildren();
 for(let i=0;i<13;i++)for(let j=0;j<13;j++){
 const pair=i===j,hi=Math.min(i,j),lo=Math.max(i,j),suited=i<j;
@@ -81,12 +81,14 @@ const threeBet=premium||(pair&&hi<=5&&late)||(suited&&hi===0&&lo<=3&&late);
 const callHand=pair?hi<=9:suited?(hi<=3&&lo<=8)||(hi<=6&&lo-hi<=3):hi===0&&lo<=4;
 decision=threeBet?'threebet':callHand&&(late||hi<=4||pair)?'call':'fold';
 }
-if(decision!=='fold')selected+=pair?6:suited?4:12;
+const combos=pair?6:suited?4:12;if(decision!=='fold')selected+=combos;if(decision==='open'||decision==='threebet')raiseCombos+=combos;else if(decision==='call')callCombos+=combos;else foldCombos+=combos;
 const labels={open:'オープンレイズ候補',threebet:'3BET候補',call:'コール候補',fold:'フォールド候補'};
 const cell=node('div','range-cell range-'+decision,label);
-cell.title=label+' / '+labels[decision];
+cell.title=label+' / '+labels[decision];cell.onclick=()=>{matrix.querySelectorAll('.range-cell').forEach(x=>x.classList.remove('range-active'));cell.classList.add('range-active');selected.textContent=label+'　/　'+labels[decision]+'　（'+combos+'コンボ）'};
 matrix.append(cell)
 }
+const pct=x=>(x/1326*100).toFixed(1)+'%';stats.innerHTML='<div class="range-stat range-stat-raise"><span>'+(mode.value==='defend'?'3BET':'RAISE')+'</span><strong>'+pct(raiseCombos)+'</strong><small>'+raiseCombos+' combos</small></div>'+(mode.value==='defend'?'<div class="range-stat range-stat-call"><span>CALL</span><strong>'+pct(callCombos)+'</strong><small>'+callCombos+' combos</small></div>':'')+'<div class="range-stat range-stat-fold"><span>FOLD</span><strong>'+pct(foldCombos)+'</strong><small>'+foldCombos+' combos</small></div>';
+selected.textContent='マスをタップするとハンドのアクションを確認できます';
 summary.textContent=mode.value==='defend'?p+' 対 '+villain.value+' のオープンレイズ / '+n+'人卓 · 継続候補 約'+Math.round(selected/1326*100)+'%（簡易参考）':bb?'BBはブラインドをすでに支払っているため、全員フォールドのオープンレイズ表は対象外です。別のポジションを選択してください。':p+' / '+n+'人卓 · レイズ候補 約'+Math.round(selected/1326*100)+'%（参考値）';
 legend.innerHTML=mode.value==='defend'?'<span><i class="range-dot range-threebet"></i>3BET</span><span><i class="range-dot range-call"></i>CALL</span><span><i class="range-dot range-fold"></i>FOLD</span>':'<span><i class="range-dot range-open"></i>RAISE</span><span><i class="range-dot range-fold"></i>FOLD</span>';
 note.textContent=mode.value==='defend'?'※ 相手のレイズへの対応は独自の学習用近似であり、公開ソルバーの正確な3BET/CALL頻度ではありません。100BB・標準的なオープンサイズを想定。相手のポジションより後ろの席での判断を表示。3BETはリレイズ、CALLはレイズ額に合わせること。実際のGTOソルバー結果ではなく、サイズ・レーキ・相手の傾向などによって変化します。':'※ GTO MAX AI公開の100BB RFIレンジをハンド別に反映。2〜5人卓・7〜9人卓は近い席のレンジで近似しています。混合頻度は未対応。出典：https://gtomax.ai/free-poker-rta-charts/';
