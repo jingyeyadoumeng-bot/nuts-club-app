@@ -92,7 +92,8 @@ legend.innerHTML=mode.value==='defend'?'<span><i class="range-dot range-threebet
 note.textContent=mode.value==='defend'?'※ 相手が最初にレイズした場面の簡易参考表。100BB・標準的なオープンサイズを想定。相手のポジションより後ろの席での判断を表示。3BETはリレイズ、CALLはレイズ額に合わせること。実際のGTOソルバー結果ではなく、サイズ・レーキ・相手の傾向などによって変化します。':'※ 全員フォールドで自分まで回った場面のRFI用簡易参考表。100BB想定。厳密なGTO頻度ではありません。';
 }
 function updatePositions(){const arr=positions(Number(count.value));pos.replaceChildren();arr.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;pos.append(o)});pos.value=arr.includes('BTN')?'BTN':'BTN/SB';draw()}
-count.onchange=updatePositions;pos.onchange=draw;updatePositions();target.append(section)
+function updateVillains(){const arr=positions(Number(count.value)),idx=arr.indexOf(pos.value);villain.replaceChildren();arr.slice(0,idx).filter(x=>x!=='BB'&&x!=='SB').forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;villain.append(o)});if(!villain.options.length){const o=document.createElement('option');o.value='BTN';o.textContent='先行レイズなし';villain.append(o)}villainWrap.hidden=mode.value!=='defend';if(mode.value==='defend'&&!arr.slice(0,idx).some(x=>x!=='BB'&&x!=='SB')){summary.textContent='このポジションより前にレイズ可能な席がありません。後ろのポジションを選択してください。';matrix.replaceChildren();return}draw()}
+count.onchange=()=>{updatePositions();updateVillains()};pos.onchange=updateVillains;mode.onchange=updateVillains;villain.onchange=draw;updatePositions();updateVillains();target.append(section)
 }
 const rangeCss=node('style');rangeCss.textContent=`
 #club-lab .range-guide{margin-top:18px;padding:25px;border:1px solid #3b526f;border-radius:8px;background:linear-gradient(155deg,#111c2b,#0a1019);color:#eaf1fa}
@@ -107,7 +108,7 @@ const rangeCss=node('style');rangeCss.textContent=`
 #club-lab .range-matrix{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:3px}
 #club-lab .range-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:clamp(7px,1.5vw,12px);border-radius:3px}
 #club-lab .range-open{background:#3676be;color:white}
-#club-lab .range-fold{background:#202c3b;color:#73869c}
+#club-lab .range-fold{background:#202c3b;color:#73869c}\n#club-lab .range-threebet{background:#e1546c;color:white}\n#club-lab .range-call{background:#318d83;color:white}\n#club-lab .range-villain-wrap[hidden]{display:none}
 #club-lab .range-legend{display:flex;flex-wrap:wrap;gap:15px;margin:16px 0;font-size:11px;color:#d3deed}
 #club-lab .range-dot{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px}
 @media(max-width:500px){#club-lab .range-guide{padding:17px 12px}#club-lab .range-matrix{gap:2px}#club-lab .range-cell{font-size:7px}}
