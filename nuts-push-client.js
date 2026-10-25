@@ -17,14 +17,17 @@ button.onclick=async()=>{
  try{
   if(!('serviceWorker'in navigator)||!('PushManager'in window)||!('Notification'in window)throw Error('この端末・ブラウザはプッシュ通知に対応していません');
   if(/iPhone|iPad|iPod/.test(navigator.userAgent)&&!(window.navigator.standalone||window.matchMedia('(display-mode: standalone)').matches))throw Error('iPhoneではSafariの共有メニューからホーム画面に追加し、そのアイコンから開いてください');
+  msg('通知の準備をしています…');
+  const registration=await navigator.serviceWorker.register('/service-worker.js',{scope:'/'});
   const permission=await Notification.requestPermission();
   if(permission!=='granted')throw Error('通知が許可されていません。スマホの設定を確認してください');
-  const registration=await navigator.serviceWorker.ready;
+  msg('スマホの通知を登録しています…');
+  if(!registration.active)await Promise.race([navigator.serviceWorker.ready,new Promise((_,reject)=>setTimeout(()=>reject(Error('通知の準備がタイムアウトしました。アプリを開き直してください')),12000))]);
   let subscription=await registration.pushManager.getSubscription();
   if(subscription){const old=subscription.options.applicationServerKey;if(old&&Array.from(new Uint8Array(old)).join(',')!==Array.from(decode(PUBLIC_KEY)).join(',')){await subscription.unsubscribe();subscription=null}}
   if(!subscription)subscription=await registration.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:decode(PUBLIC_KEY)});
   await saveSubscription(subscription);
   msg('✓ このスマホのプッシュ通知を登録しました ♠');
- }catch(e){msg(e.message)}finally{button.disabled=false}
+ }catch(e){msg(e.message||'通知を登録できませんでした。もう一度お試しください')}finally{button.disabled=false}
 };
 })();
