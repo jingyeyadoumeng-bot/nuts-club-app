@@ -49,4 +49,54 @@ const arenaTheme=node('style');arenaTheme.textContent=`
 #club-lab .arena-enter{display:block;width:100%;padding:17px 20px;border:1px solid #669ff0;background:#2660b5;color:white;border-radius:4px;font-size:16px;font-weight:800;letter-spacing:1px;text-align:center;cursor:pointer}
 #club-lab .arena-enter:hover{background:#3677d1}
 @media(max-width:500px){#club-lab .arena-entry{padding:24px 20px;min-height:440px}#club-lab .arena-title{margin-top:75px;font-size:43px}#club-lab .arena-symbol{right:12px;top:80px;font-size:95px}}
-`;document.head.append(arenaTheme);window.nutsPokerLabOpen=()=>page();page()})();
+`;document.head.append(arenaTheme);function renderRangeGuide(target){
+const section=node('section','range-guide');
+section.innerHTML='<div class="range-head"><span>REFERENCE / PREFLOP</span><h3>HAND RANGE <em>CHART</em></h3><p>人数とポジションを選択して、オープンレイズの目安を確認。</p></div><div class="range-controls"><label>テーブル人数<select class="range-count"></select></label><label>ポジション<select class="range-position"></select></label></div><div class="range-summary"></div><div class="range-matrix"></div><div class="range-legend"><span><i class="range-dot range-open"></i>オープンレイズ候補</span><span><i class="range-dot range-fold"></i>フォールド候補</span></div><p class="range-note">※ 全員フォールドで自分まで回った場面のRFI（最初のレイズ）用の簡易参考表。100BB・一般的なキャッシュゲームを想定。厳密なGTO頻度ではありません。相手のレイズ・リンプ、スタック、レーキ等によって変わります。</p>';
+const count=section.querySelector('.range-count'),pos=section.querySelector('.range-position'),matrix=section.querySelector('.range-matrix'),summary=section.querySelector('.range-summary');
+for(let n=2;n<=9;n++){const o=document.createElement('option');o.value=n;o.textContent=n+'人卓'+(n===6?'（6MAX）':n===9?'（9MAX）':'');if(n===9)o.selected=true;count.append(o)}
+const positions=n=>n===2?['BTN/SB','BB']:n===3?['BTN','SB','BB']:n===4?['CO','BTN','SB','BB']:n===5?['HJ','CO','BTN','SB','BB']:n===6?['UTG','HJ','CO','BTN','SB','BB']:n===7?['UTG','MP','HJ','CO','BTN','SB','BB']:n===8?['UTG','UTG+1','MP','HJ','CO','BTN','SB','BB']:['UTG','UTG+1','MP','LJ','HJ','CO','BTN','SB','BB'];
+const rank='AKQJT98765432';
+function draw(){
+const n=Number(count.value),p=pos.value,order=positions(n),idx=order.indexOf(p),bb=p==='BB';
+const opens=['UTG','UTG+1','MP','LJ','HJ','CO','BTN','BTN/SB','SB'];
+const width=p==='BTN'||p==='BTN/SB'?0:p==='SB'?1:p==='CO'?2:p==='HJ'?3:p==='LJ'?4:p==='MP'?5:p==='UTG+1'?6:7;
+const earlyAdjust=n<=5?1:n===6?0:n>=8?-1:0;
+let selected=0;
+matrix.replaceChildren();
+for(let i=0;i<13;i++)for(let j=0;j<13;j++){
+const pair=i===j,hi=Math.min(i,j),lo=Math.max(i,j),suited=i<j;
+const label=pair?rank[i]+rank[j]:rank[hi]+rank[lo]+(suited?'s':'o');
+const h=12-hi,l=12-lo;
+const score=pair?49+h*3.1:hi===0?44-lo*3.5:hi===1?39-lo*3.4:hi===2?35-lo*3.3:hi===3?31-lo*3.1:30-hi*3-lo*2.5;
+const suitedBonus=suited?11:0,connector=pair?0:Math.max(0,5-(lo-hi))*2;
+const threshold=pair?Math.max(32,51+width*2.6-earlyAdjust*2):Math.max(12,51+width*4-earlyAdjust*3);
+const open=!bb&&(score+suitedBonus+connector>=threshold);
+if(open)selected+=pair?6:4;
+const cell=node('div','range-cell '+(open?'range-open':'range-fold'),label);
+cell.title=label+' / '+(open?'レイズ候補':'フォールド候補');
+matrix.append(cell)
+}
+summary.textContent=bb?'BBはブラインドをすでに支払っているため、全員フォールドのオープンレイズ表は対象外です。別のポジションを選択してください。':p+' / '+n+'人卓 · レイズ候補 約'+Math.round(selected/1326*100)+'%（参考値）';
+}
+function updatePositions(){const arr=positions(Number(count.value));pos.replaceChildren();arr.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;pos.append(o)});pos.value=arr.includes('BTN')?'BTN':'BTN/SB';draw()}
+count.onchange=updatePositions;pos.onchange=draw;updatePositions();target.append(section)
+}
+const rangeCss=node('style');rangeCss.textContent=`
+#club-lab .range-guide{margin-top:18px;padding:25px;border:1px solid #3b526f;border-radius:8px;background:linear-gradient(155deg,#111c2b,#0a1019);color:#eaf1fa}
+#club-lab .range-head span{font-size:10px;letter-spacing:2px;color:#86b8ff}
+#club-lab .range-head h3{font:800 clamp(24px,5vw,36px) Georgia,serif;letter-spacing:1px;margin:12px 0;color:#fff}
+#club-lab .range-head h3 em{font-style:normal;color:#7eb4ff}
+#club-lab .range-head p,#club-lab .range-note{font-size:12px;line-height:1.8;color:#aebfd3}
+#club-lab .range-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
+#club-lab .range-controls label{font-size:12px;color:#b9cde5}
+#club-lab .range-controls select{display:block;width:100%;margin-top:8px;padding:12px 8px;border:1px solid #52709a;background:#15253a;color:white;border-radius:4px;font-size:14px}
+#club-lab .range-summary{font-size:12px;color:#d7e6fb;margin:10px 0 14px}
+#club-lab .range-matrix{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:3px}
+#club-lab .range-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:clamp(7px,1.5vw,12px);border-radius:3px}
+#club-lab .range-open{background:#3676be;color:white}
+#club-lab .range-fold{background:#202c3b;color:#73869c}
+#club-lab .range-legend{display:flex;flex-wrap:wrap;gap:15px;margin:16px 0;font-size:11px;color:#d3deed}
+#club-lab .range-dot{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px}
+@media(max-width:500px){#club-lab .range-guide{padding:17px 12px}#club-lab .range-matrix{gap:2px}#club-lab .range-cell{font-size:7px}}
+`;document.head.append(rangeCss);
+window.nutsPokerLabOpen=()=>page();page()})();
