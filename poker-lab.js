@@ -72,20 +72,16 @@ matrix.replaceChildren();
 for(let i=0;i<13;i++)for(let j=0;j<13;j++){
 const pair=i===j,hi=Math.min(i,j),lo=Math.max(i,j),suited=i<j;
 const label=pair?rank[i]+rank[j]:rank[hi]+rank[lo]+(suited?'s':'o');
-const h=12-hi,l=12-lo;
-const score=pair?49+h*3.1:hi===0?44-lo*3.5:hi===1?39-lo*3.4:hi===2?35-lo*3.3:hi===3?31-lo*3.1:30-hi*3-lo*2.5;
-const suitedBonus=suited?11:0,connector=pair?0:Math.max(0,5-(lo-hi))*2;
-const threshold=pair?Math.max(32,51+width*2.6-earlyAdjust*2):Math.max(12,51+width*4-earlyAdjust*3);
-const open=!bb&&(score+suitedBonus+connector>=threshold);
+const open=!bb&&rangeHas(label,rfiTexts[rangeKey(p,n)]);
 let decision=open?'open':'fold';
 if(mode.value==='defend'){
 const vi=order.indexOf(villain.value),distance=idx-vi,late=vi>=order.indexOf('CO')?1:0;
 const premium=pair?hi<=3:hi===0&&lo<=2&&suited;
 const threeBet=premium||(pair&&hi<=5&&late)||(suited&&hi===0&&lo<=3&&late);
 const callHand=pair?hi<=9:suited?(hi<=3&&lo<=8)||(hi<=6&&lo-hi<=3):hi===0&&lo<=4;
-decision=threeBet?'threebet':callHand&&score+suitedBonus+connector>=(late?31:39)?'call':'fold';
+decision=threeBet?'threebet':callHand&&(late||hi<=4||pair)?'call':'fold';
 }
-if(decision!=='fold')selected+=pair?6:4;
+if(decision!=='fold')selected+=pair?6:suited?4:12;
 const labels={open:'オープンレイズ候補',threebet:'3BET候補',call:'コール候補',fold:'フォールド候補'};
 const cell=node('div','range-cell range-'+decision,label);
 cell.title=label+' / '+labels[decision];
@@ -93,7 +89,7 @@ matrix.append(cell)
 }
 summary.textContent=mode.value==='defend'?p+' 対 '+villain.value+' のオープンレイズ / '+n+'人卓 · 継続候補 約'+Math.round(selected/1326*100)+'%（簡易参考）':bb?'BBはブラインドをすでに支払っているため、全員フォールドのオープンレイズ表は対象外です。別のポジションを選択してください。':p+' / '+n+'人卓 · レイズ候補 約'+Math.round(selected/1326*100)+'%（参考値）';
 legend.innerHTML=mode.value==='defend'?'<span><i class="range-dot range-threebet"></i>3BET</span><span><i class="range-dot range-call"></i>CALL</span><span><i class="range-dot range-fold"></i>FOLD</span>':'<span><i class="range-dot range-open"></i>RAISE</span><span><i class="range-dot range-fold"></i>FOLD</span>';
-note.textContent=mode.value==='defend'?'※ 相手が最初にレイズした場面の簡易参考表。100BB・標準的なオープンサイズを想定。相手のポジションより後ろの席での判断を表示。3BETはリレイズ、CALLはレイズ額に合わせること。実際のGTOソルバー結果ではなく、サイズ・レーキ・相手の傾向などによって変化します。':'※ 全員フォールドで自分まで回った場面のRFI用簡易参考表。100BB想定。厳密なGTO頻度ではありません。';
+note.textContent=mode.value==='defend'?'※ 相手のレイズへの対応は独自の学習用近似であり、公開ソルバーの正確な3BET/CALL頻度ではありません。100BB・標準的なオープンサイズを想定。相手のポジションより後ろの席での判断を表示。3BETはリレイズ、CALLはレイズ額に合わせること。実際のGTOソルバー結果ではなく、サイズ・レーキ・相手の傾向などによって変化します。':'※ GTO MAX AI公開の100BB RFIレンジをハンド別に反映。2〜5人卓・7〜9人卓は近い席のレンジで近似しています。混合頻度は未対応。出典：https://gtomax.ai/free-poker-rta-charts/';
 }
 function updatePositions(){const arr=positions(Number(count.value));pos.replaceChildren();arr.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;pos.append(o)});pos.value=arr.includes('BB')?'BB':arr[0];draw()}
 function updateVillains(){const arr=positions(Number(count.value)),idx=arr.indexOf(pos.value),previous=villain.value;villain.replaceChildren();const choices=arr.slice(0,idx).filter(x=>x!=='BB');choices.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p+' からレイズ';villain.append(o)});if(choices.includes(previous))villain.value=previous;villainWrap.hidden=mode.value!=='defend';if(mode.value==='defend'&&!choices.length){summary.textContent='この席より前にレイズした相手はいません。自分のポジションを変更するか、オープンレイズ表を選んでください。';matrix.replaceChildren();return}draw()}
