@@ -31,6 +31,6 @@ const enable=async()=>{
   msg('✓ このスマホのプッシュ通知を登録しました ♠');
  }catch(e){msg(e.message||'通知を登録できませんでした。もう一度お試しください')}finally{button.disabled=false}
 };
+window.nutsEnablePush=enable;
 button.addEventListener('click',enable);
-document.addEventListener('click',event=>{const target=event.target.closest?.('#nuts-push-enable');if(target&&target!==button){event.preventDefault();enable()}});
 })();
