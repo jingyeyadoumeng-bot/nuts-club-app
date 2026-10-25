@@ -52,7 +52,7 @@ const arenaTheme=node('style');arenaTheme.textContent=`
 `;document.head.append(arenaTheme);function renderRangeGuide(target){
 const section=node('section','range-guide');
 section.innerHTML='<div class="range-head"><span>REFERENCE / PREFLOP</span><h3>HAND RANGE <em>CHART</em></h3><p>人数とポジションを選択して、オープンレイズの目安を確認。</p></div><div class="range-controls"><label>テーブル人数<select class="range-count"></select></label><label>ポジション<select class="range-position"></select></label></div><div class="range-position-tabs"></div><div class="range-summary"></div><div class="range-workspace"><div class="range-matrix"></div><div class="range-inspector"><div class="range-inspector-title">ACTION BREAKDOWN</div><div class="range-stats"></div><div class="range-selected">ハンドを選ぶと詳細を表示</div></div></div><div class="range-legend"><span><i class="range-dot range-open"></i>オープンレイズ候補</span><span><i class="range-dot range-fold"></i>フォールド候補</span></div><p class="range-note">※ 全員フォールドで自分まで回った場面のRFI（最初のレイズ）用の簡易参考表。100BB・一般的なキャッシュゲームを想定。厳密なGTO頻度ではありません。相手のレイズ・リンプ、スタック、レーキ等によって変わります。</p>';
-const modeBox=node('div','range-controls','<label>アクション<select class="range-mode"><option value="defend">相手のレイズに対応（3BET / CALL / FOLD）</option><option value="rfi">自分からオープンレイズ</option></select></label><label class="range-villain-wrap">レイズした相手<select class="range-villain"></select></label>');section.querySelector('.range-controls').after(modeBox);
+const modeBox=node('div','range-controls','<label>アクション<select class="range-mode"><option value="rfi">自分からオープンレイズ</option><option value="defend">相手のレイズに対応（3BET / CALL / FOLD）</option></select></label><label class="range-villain-wrap">レイズした相手<select class="range-villain"></select></label>');section.querySelector('.range-controls').after(modeBox);
 const mode=modeBox.querySelector('.range-mode'),villain=modeBox.querySelector('.range-villain'),villainWrap=modeBox.querySelector('.range-villain-wrap'),legend=section.querySelector('.range-legend'),note=section.querySelector('.range-note');
 const count=section.querySelector('.range-count'),pos=section.querySelector('.range-position'),matrix=section.querySelector('.range-matrix'),summary=section.querySelector('.range-summary'),tabs=section.querySelector('.range-position-tabs'),stats=section.querySelector('.range-stats'),selected=section.querySelector('.range-selected');
 for(let n=2;n<=9;n++){const o=document.createElement('option');o.value=n;o.textContent=n+'人卓'+(n===6?'（6MAX）':n===9?'（9MAX）':'');if(n===9)o.selected=true;count.append(o)}
@@ -115,5 +115,33 @@ const rangeCss=node('style');rangeCss.textContent=`
 #club-lab .range-legend{display:flex;flex-wrap:wrap;gap:15px;margin:16px 0;font-size:11px;color:#d3deed}
 #club-lab .range-dot{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px}
 @media(max-width:500px){#club-lab .range-guide{padding:17px 12px}#club-lab .range-matrix{gap:2px}#club-lab .range-cell{font-size:7px}}
+
+#club-lab .range-guide{background:#101113!important;border:1px solid #30343a!important;border-radius:6px!important;padding:18px!important;max-width:none!important}
+#club-lab .range-head h3{font-family:Arial,sans-serif!important;font-size:27px!important;letter-spacing:1px}
+#club-lab .range-head h3 em{color:#f44b51!important}
+#club-lab .range-position-tabs{display:flex;gap:5px;overflow-x:auto;margin:16px 0 12px;padding-bottom:5px;scrollbar-width:thin}
+#club-lab .range-tab{flex:1;min-width:52px;background:#222427;color:#cbd0d6;border:1px solid #363a40;border-radius:4px;padding:12px 7px;font-weight:800;font-size:12px;cursor:pointer}
+#club-lab .range-tab.active{border-color:#f04b50;background:#3b2024;color:#fff;box-shadow:inset 0 3px #f04b50}
+#club-lab .range-workspace{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(165px,1fr);gap:12px;align-items:start}
+#club-lab .range-matrix{gap:1px!important;background:#111!important;border:1px solid #555!important}
+#club-lab .range-cell{border-radius:0!important;aspect-ratio:1!important;font-size:clamp(8px,1.7vw,13px)!important;justify-content:flex-start!important;align-items:flex-start!important;padding:4px 2px!important;cursor:pointer!important;font-family:Arial,sans-serif!important;font-weight:700!important}
+#club-lab .range-open{background:#ed3e42!important;color:white!important}
+#club-lab .range-threebet{background:#ed3e42!important;color:white!important}
+#club-lab .range-call{background:#25978b!important;color:white!important}
+#club-lab .range-fold{background:#3677ad!important;color:#fff!important}
+#club-lab .range-active{outline:3px solid white!important;outline-offset:-3px!important;z-index:1}
+#club-lab .range-inspector{background:#181b20;border:1px solid #373b41;border-radius:5px;padding:10px;min-width:0}
+#club-lab .range-inspector-title{font-size:11px;letter-spacing:1px;color:#9da8b5;font-weight:800;margin-bottom:10px}
+#club-lab .range-stats{display:grid;gap:6px}
+#club-lab .range-stat{padding:12px;display:flex;flex-direction:column;gap:8px;color:white;min-height:85px}
+#club-lab .range-stat span{font-size:14px;font-weight:800}
+#club-lab .range-stat strong{font-size:26px;font-weight:900}
+#club-lab .range-stat small{font-size:10px;opacity:.8;text-align:right}
+#club-lab .range-stat-raise{background:#ed3e42}
+#club-lab .range-stat-call{background:#25978b}
+#club-lab .range-stat-fold{background:#3677ad}
+#club-lab .range-selected{border-top:1px solid #42474e;padding:13px 2px 3px;margin-top:12px;font-size:12px;color:#dce4ed;line-height:1.6}
+#club-lab .range-controls select{background:#202328!important;border-color:#4d535b!important}
+@media(max-width:570px){#club-lab .range-guide{padding:10px!important}#club-lab .range-workspace{grid-template-columns:1fr}#club-lab .range-matrix{width:100%}#club-lab .range-cell{font-size:clamp(8px,2.1vw,12px)!important;padding:2px 1px!important}#club-lab .range-stats{grid-template-columns:repeat(3,minmax(0,1fr))}#club-lab .range-stat{padding:8px;min-height:74px}#club-lab .range-stat strong{font-size:20px}#club-lab .range-stat span{font-size:11px}}
 `;document.head.append(rangeCss);
 window.nutsPokerLabOpen=()=>page();page()})();
