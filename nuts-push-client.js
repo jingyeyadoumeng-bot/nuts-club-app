@@ -13,15 +13,14 @@ async function saveSubscription(subscription){
  const r=await fetch(API+'nuts_push_subscriptions?on_conflict=endpoint',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+s.access_token,'Content-Type':'application/json',Prefer:'resolution=merge-duplicates'},body:JSON.stringify({user_id:s.user.id,endpoint:data.endpoint,p256dh:data.keys.p256dh,auth:data.keys.auth})});
  if(!r.ok){const e=await r.json().catch(()=>({}));throw Error(e.message||'通知の登録に失敗しました')}
 }
-button.onclick=async()=>{
+const enable=async()=>{
  button.disabled=true;
  try{
   if(!('serviceWorker'in navigator)||!('PushManager'in window)||!('Notification'in window)throw Error('この端末・ブラウザはプッシュ通知に対応していません');
   if(/iPhone|iPad|iPod/.test(navigator.userAgent)&&!(window.navigator.standalone||window.matchMedia('(display-mode: standalone)').matches))throw Error('iPhoneではSafariの共有メニューからホーム画面に追加し、そのアイコンから開いてください');
   msg('通知の準備をしています…');
-  const registrationPromise=navigator.serviceWorker.register('/service-worker.js',{scope:'/'});
   const permission=await Notification.requestPermission();
-  const registration=await registrationPromise;
+  const registration=await navigator.serviceWorker.register('/service-worker.js',{scope:'/'});
   if(permission!=='granted')throw Error('通知が許可されていません。スマホの設定を確認してください');
   msg('スマホの通知を登録しています…');
   if(!registration.active)await Promise.race([navigator.serviceWorker.ready,new Promise((_,reject)=>setTimeout(()=>reject(Error('通知の準備がタイムアウトしました。アプリを開き直してください')),12000))]);
@@ -32,4 +31,6 @@ button.onclick=async()=>{
   msg('✓ このスマホのプッシュ通知を登録しました ♠');
  }catch(e){msg(e.message||'通知を登録できませんでした。もう一度お試しください')}finally{button.disabled=false}
 };
+button.addEventListener('click',enable);
+document.addEventListener('click',event=>{const target=event.target.closest?.('#nuts-push-enable');if(target&&target!==button){event.preventDefault();enable()}});
 })();
