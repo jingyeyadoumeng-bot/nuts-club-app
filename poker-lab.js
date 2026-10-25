@@ -58,6 +58,10 @@ const count=section.querySelector('.range-count'),pos=section.querySelector('.ra
 for(let n=2;n<=9;n++){const o=document.createElement('option');o.value=n;o.textContent=n+'人卓'+(n===6?'（6MAX）':n===9?'（9MAX）':'');if(n===9)o.selected=true;count.append(o)}
 const positions=n=>n===2?['BTN/SB','BB']:n===3?['BTN','SB','BB']:n===4?['CO','BTN','SB','BB']:n===5?['HJ','CO','BTN','SB','BB']:n===6?['UTG','HJ','CO','BTN','SB','BB']:n===7?['UTG','MP','HJ','CO','BTN','SB','BB']:n===8?['UTG','UTG+1','MP','HJ','CO','BTN','SB','BB']:['UTG','UTG+1','MP','LJ','HJ','CO','BTN','SB','BB'];
 const rank='AKQJT98765432';
+const rfiTexts={early:'77+,ATs+,A5s-A3s,KTs+,QJs,AJo+,KQo',middle:'55+,A9s+,A5s-A2s,KTs+,QTs+,JTs,T9s,ATo+,KJo+',utg:'22+,ATs+,A5s-A2s,KTs+,QTs+,JTs,T9s,98s,AJo+,KQo',hj:'22+,A2s+,K9s+,Q9s+,J9s+,T8s+,98s,87s,ATo+,KJo+',co:'22+,A2s+,K5s+,Q8s+,J8s+,T8s+,97s+,87s,76s,65s,54s,A8o+,KTo+,QJo',btn:'22+,A2s+,K2s+,Q4s+,J6s+,T6s+,95s+,85s+,75s+,64s+,54s,A2o+,K8o+,Q9o+,J9o+,T9o,98o',sb:'22+,A2s+,K2s+,Q4s+,J5s+,T6s+,96s+,85s+,74s+,64s+,53s+,43s,A2o+,K8o+,Q9o+,J9o+,T9o,98o'};
+function rangeHas(hand,spec){const rank='AKQJT98765432';for(const token of spec.split(',')){if(token===hand)return true;if(token.endsWith('+')){const base=token.slice(0,-1);if(base.length===2&&hand[0]===hand[1]&&rank.indexOf(hand[0])<=rank.indexOf(base[0]))return true;if(base.length===3&&hand.length===3&&hand[0]===base[0]&&hand[2]===base[2]&&rank.indexOf(hand[1])<=rank.indexOf(base[1]))return true}if(token.includes('-')){const [a,b]=token.split('-');if(hand.length===3&&a.length===3&&hand[0]===a[0]&&hand[2]===a[2]&&rank.indexOf(hand[1])>=rank.indexOf(a[1])&&rank.indexOf(hand[1])<=rank.indexOf(b[1]))return true}}return false}
+function rangeKey(p,n){if(p==='BTN'||p==='BTN/SB')return 'btn';if(p==='SB')return 'sb';if(p==='CO')return 'co';if(p==='HJ')return n>=8?'middle':'hj';if(p==='UTG')return n>=8?'early':'utg';if(p==='UTG+1')return 'early';if(p==='MP'||p==='LJ')return 'middle';return 'utg'}
+
 function draw(){
 const n=Number(count.value),p=pos.value,order=positions(n),idx=order.indexOf(p),bb=p==='BB';
 const opens=['UTG','UTG+1','MP','LJ','HJ','CO','BTN','BTN/SB','SB'];
