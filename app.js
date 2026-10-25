@@ -9,7 +9,7 @@ async function refreshSession(){if(!session?.refresh_token)return false;try{stor
 async function showMember(){el('login').hidden=true;el('member').hidden=false;try{let p=await request('/rest/v1/profiles?select=id,display_name,total_points,store_currency,vip_tier_override&id=eq.'+encodeURIComponent(session.user.id));let u=p[0];if(!u)throw Error('プロフィールがまだ作成されていません');let chips=0;try{let c=await request('/rest/v1/chip_accounts?select=deposited_chips&member_id=eq.'+encodeURIComponent(session.user.id));chips=c[0]?.deposited_chips||0}catch{}el('name').textContent=u.display_name||session.user.email;const vipTier=['BLACK VIP','PLATINUM','GOLD','SILVER','BRONZE'].includes(String(u.vip_tier_override||'').toUpperCase())?String(u.vip_tier_override).toUpperCase():'BRONZE';el('tier').textContent=vipTier;el('vip-card').dataset.tier=vipTier;el('points').textContent=Number(u.total_points||0).toLocaleString();el('chips').textContent=Number(chips).toLocaleString();el('store-currency').textContent=Number(u.store_currency||0).toLocaleString();el('uid').textContent='MEMBER ID '+session.user.id;const qrHost=el('nuts-member-qr');if(qrHost){qrHost.replaceChildren();if(typeof QRCode!=='undefined'){new QRCode(qrHost,{text:'NUTS:'+session.user.id,width:190,height:190,colorDark:'#111111',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});el('nuts-member-qr-status').textContent='会員QRをスタッフに提示してください'}else el('nuts-member-qr-status').textContent='QRを表示できません。通信環境を確認してください'}await loadTickets().catch(e=>{el('tickets').textContent='チケットの取得に失敗しました: '+e.message});await loadChipHistory().catch(e=>{el('chip-history').textContent='履歴の取得に失敗しました: '+e.message});await loadStoreCurrencyHistory().catch(e=>{el('currency-history').textContent='店内通貨の履歴を取得できませんでした: '+e.message});message('')}catch(e){message(e.message)}}
 el('switch').onclick=()=>{register=!register;el('ranking-notice').hidden=!register;el('displayName').hidden=!register;el('signup-gender-wrap').hidden=!register;el('submit').textContent=register?'会員登録':'ログイン';el('switch').textContent=register?'ログインに戻る':'新規会員登録はこちら';message('')};
 el('submit').onclick=async()=>{let email=el('email').value.trim(),password=el('password').value;if(!email||password.length<6)return message('メールと6文字以上のパスワードを入力してください');el('submit').disabled=true;try{if(register){const gender=el('signup-gender').value;if(!['male','female'].includes(gender))return message('性別を選択してください');let d=await request('/auth/v1/signup','POST',{email,password,data:{display_name:el('displayName').value.trim()||email.split('@')[0],gender}});if(d.access_token){store(d);await showMember()}else message('確認メールを開いてからログインしてください')}else{store(await request('/auth/v1/token?grant_type=password','POST',{email,password}));await showMember()}}catch(e){message(e.message)}finally{el('submit').disabled=false}};
-el('reload').onclick=showMember;el('logout').onclick=async()=>{try{await request('/auth/v1/logout','POST')}catch{}store(null);el('member').hidden=true;el('login').hidden=false;message('ログアウトしました')};
+el('logout').onclick=async()=>{try{await request('/auth/v1/logout','POST')}catch{}store(null);el('member').hidden=true;el('login').hidden=false;message('ログアウトしました')};
 (async()=>{if(session){if(session.expires_at&&session.expires_at*1000<Date.now()&&!(await refreshSession()))return;await showMember()}})();
 window.nutsRefreshChipHistory=()=>loadChipHistory().catch(e=>{el('chip-history').textContent='履歴の取得に失敗しました: '+e.message});
 async function loadStoreCurrencyHistory(){const host=el('currency-history');if(!host)return;const rows=await request('/rest/v1/rpc/nuts_my_store_currency_history','POST',{p_limit:100});host.replaceChildren();if(!rows.length){host.textContent='店内通貨の利用・追加履歴はまだありません';return}for(const row of rows){const delta=Number(row.delta||0);const entry=document.createElement('div');entry.className='currency-history-entry'+(delta<0?' is-spent':'');const left=document.createElement('div');const label=document.createElement('div');label.textContent=delta<0?'店内通貨を使用':'店内通貨を追加';const time=document.createElement('time');time.dateTime=row.created_at;time.textContent=new Date(row.created_at).toLocaleString('ja-JP');left.append(label,time);const value=document.createElement('strong');value.textContent=(delta>0?'+':'')+delta.toLocaleString();entry.append(left,value);host.append(entry)}}
@@ -52,3 +52,36 @@ async function loadTickets(){
 
 setInterval(async()=>{if(!session?.refresh_token)return;if(!session.expires_at||session.expires_at*1000<Date.now()+5*60*1000)await refreshSession()},60000);
 window.addEventListener('storage',async e=>{if(e.key!=='nuts_session')return;try{session=JSON.parse(e.newValue||'null')}catch{session=null}if(!session){el('member').hidden=true;el('login').hidden=false;return}if(!session.expires_at||session.expires_at*1000<Date.now()+60000){if(!(await refreshSession()))return}await showMember()});
+
+(function setupPullRefresh(){
+ const indicator=document.getElementById('nuts-pull-indicator');if(!indicator)return;
+ let startY=null,distance=0,busy=false;
+ const setIndicator=(label,visible)=>{indicator.textContent=label;indicator.style.transform=visible?'translate(-50%,0)':'translate(-50%,-120px)'};
+ document.addEventListener('touchstart',e=>{
+  if(busy||!session?.access_token||document.getElementById('member').hidden||window.scrollY>2||e.touches.length!==1){startY=null;return}
+  const target=e.target;
+  if(target.closest('.currency-history-scroll,.ticket-list-scroll,[role="dialog"],textarea,select')){startY=null;return}
+  startY=e.touches[0].clientY;distance=0;
+ },{passive:true});
+ document.addEventListener('touchmove',e=>{
+  if(startY===null||busy)return;
+  if(window.scrollY>2){startY=null;setIndicator('',false);return}
+  distance=Math.max(0,e.touches[0].clientY-startY);
+  if(distance>16)setIndicator(distance>=85?'↑ 離すと更新':'↓ 引っ張って更新',true);
+  else setIndicator('',false);
+ },{passive:true});
+ document.addEventListener('touchend',async()=>{
+  if(startY===null)return;
+  const shouldRefresh=distance>=85&&window.scrollY<=2;
+  startY=null;distance=0;
+  if(!shouldRefresh){setIndicator('',false);return}
+  busy=true;setIndicator('⟳ 更新中...',true);
+  try{
+   await showMember();
+   if(typeof window.nutsRefreshStoreStatus==='function')await window.nutsRefreshStoreStatus();
+   setIndicator('✓ 更新しました',true);
+  }catch(e){setIndicator('更新できませんでした',true)}
+  finally{busy=false;setTimeout(()=>setIndicator('',false),1000)}
+ },{passive:true});
+ document.addEventListener('touchcancel',()=>{startY=null;distance=0;if(!busy)setIndicator('',false)},{passive:true});
+})();
