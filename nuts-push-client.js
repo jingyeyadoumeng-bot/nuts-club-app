@@ -4,7 +4,8 @@ const API='https://ixjnfzgkohmkukxqsfts.supabase.co/rest/v1/',KEY='sb_publishabl
 const button=document.getElementById('nuts-push-enable'),status=document.getElementById('nuts-push-status');
 if(!button)return;
 const session=()=>{try{return JSON.parse(localStorage.getItem('nuts_session')||'{}')}catch{return {}}};
-const msg=t=>status.textContent=t;
+const msg=t=>{if(status)status.textContent=t};
+msg('通知ボタンの準備OK。押して設定できます。');
 const decode=s=>{const p=s.replace(/-/g,'+').replace(/_/g,'/');const raw=atob(p+'='.repeat((4-p.length%4)%4));return Uint8Array.from(raw,c=>c.charCodeAt(0))};
 async function saveSubscription(subscription){
  const s=session();if(!s.access_token||!s.user?.id)throw Error('ログインしてください');
@@ -18,8 +19,9 @@ button.onclick=async()=>{
   if(!('serviceWorker'in navigator)||!('PushManager'in window)||!('Notification'in window)throw Error('この端末・ブラウザはプッシュ通知に対応していません');
   if(/iPhone|iPad|iPod/.test(navigator.userAgent)&&!(window.navigator.standalone||window.matchMedia('(display-mode: standalone)').matches))throw Error('iPhoneではSafariの共有メニューからホーム画面に追加し、そのアイコンから開いてください');
   msg('通知の準備をしています…');
-  const registration=await navigator.serviceWorker.register('/service-worker.js',{scope:'/'});
+  const registrationPromise=navigator.serviceWorker.register('/service-worker.js',{scope:'/'});
   const permission=await Notification.requestPermission();
+  const registration=await registrationPromise;
   if(permission!=='granted')throw Error('通知が許可されていません。スマホの設定を確認してください');
   msg('スマホの通知を登録しています…');
   if(!registration.active)await Promise.race([navigator.serviceWorker.ready,new Promise((_,reject)=>setTimeout(()=>reject(Error('通知の準備がタイムアウトしました。アプリを開き直してください')),12000))]);
