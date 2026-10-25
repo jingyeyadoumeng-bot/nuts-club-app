@@ -31,4 +31,22 @@ page=function(id='home'){oldPage(id);
  if(id==='analysis'){const last=s.answers.slice(-24);if(last.length){const box=node('div','lab-card','<h3>学習の推移</h3><p class="lab-muted">最近の解答（正解＝高いバー）</p>'),chart=node('div','lab-mini-chart');last.forEach(x=>{const bar=node('span');bar.style.height=x.ok?'90%':'25%';bar.title=x.ok?'正解':'不正解';chart.append(bar)});box.append(chart,node('p','lab-chart-label','左が古い解答 → 右が新しい解答'));const weak=[...new Set(s.answers.map(x=>x.skill))].map(skill=>{const a=s.answers.filter(x=>x.skill===skill);return {skill,rate:a.filter(x=>x.ok).length/a.length,n:a.length}}).filter(x=>x.n>=2).sort((a,b)=>a.rate-b.rate)[0];if(weak)box.append(node('p','', '次の復習おすすめ：<strong>'+weak.skill+'</strong>（正答率 '+Math.round(weak.rate*100)+'%）'));host.append(box)}}
  if(id==='level'){const box=node('div','lab-card','<h3>♛ 実績バッジ</h3>'),grid=node('div','lab-badges');[['♠','初めての1問',s.answers.length>=1],['★','10問達成',s.answers.length>=10],['🏆','50問達成',s.answers.length>=50],['📖','5講座修了',s.read.length>=5],['🎓','全講座修了',s.read.length>=lessons.length],['✍','ハンド記録',s.hands.length>=1]].forEach(([ico,label,ok])=>{grid.append(node('div','lab-badge'+(ok?'':' locked'),'<strong>'+ico+'</strong>'+label))});box.append(grid);host.append(box)}
 };
-window.nutsPokerLabOpen=()=>page();page()})();
+const arenaTheme=node('style');arenaTheme.textContent=`
+#club-lab:has(.arena-entry){background:transparent;border:0;box-shadow:none;padding:0;max-width:720px;margin:0 auto 28px}
+#club-lab .arena-entry{position:relative;overflow:hidden;min-height:465px;padding:34px 36px 32px;border:1px solid #46516a;border-radius:8px;background:radial-gradient(ellipse at 90% 10%,#20345b77,transparent 42%),linear-gradient(145deg,#111c2c,#080c14 75%);box-shadow:0 20px 60px #0009}
+#club-lab .arena-entry:before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 98%,#ffffff0c 99%),linear-gradient(0deg,transparent 98%,#ffffff0c 99%);background-size:34px 34px;mask-image:linear-gradient(to bottom,#0005,transparent 75%)}
+#club-lab .arena-entry-top{display:flex;justify-content:space-between;gap:10px;align-items:center}
+#club-lab .arena-kicker{font:700 11px -apple-system,sans-serif;letter-spacing:2px;color:#a9bcd6}
+#club-lab .arena-live{font:700 10px -apple-system,sans-serif;letter-spacing:1px;border:1px solid #365b91;color:#88baff;padding:7px 9px;border-radius:3px}
+#club-lab .arena-symbol{position:absolute;right:38px;top:72px;font-size:132px;line-height:1;color:#497cbb22;font-family:Georgia,serif;pointer-events:none}
+#club-lab .arena-title{position:relative;font-family:Georgia,'Times New Roman',serif;font-size:clamp(38px,7vw,68px);font-weight:800;line-height:1.05;letter-spacing:1px;color:#f8faff;margin-top:75px}
+#club-lab .arena-title em{font-style:normal;color:#7eb4ff}
+#club-lab .arena-subtitle{font-size:11px;font-weight:700;letter-spacing:2.2px;color:#93abc8;margin:13px 0 0}
+#club-lab .arena-rule{height:1px;background:linear-gradient(90deg,#4e92e5,#ff526d,transparent);margin:25px 0 20px}
+#club-lab .arena-description{font-size:15px;line-height:1.9;color:#d9e3f2}
+#club-lab .arena-features{display:flex;flex-wrap:wrap;gap:9px;margin:24px 0}
+#club-lab .arena-features span{font-size:10px;letter-spacing:.6px;color:#b7c7dc;border:1px solid #32455e;padding:8px;border-radius:3px;background:#122037}
+#club-lab .arena-enter{display:block;width:100%;padding:17px 20px;border:1px solid #669ff0;background:#2660b5;color:white;border-radius:4px;font-size:16px;font-weight:800;letter-spacing:1px;text-align:center;cursor:pointer}
+#club-lab .arena-enter:hover{background:#3677d1}
+@media(max-width:500px){#club-lab .arena-entry{padding:24px 20px;min-height:440px}#club-lab .arena-title{margin-top:75px;font-size:43px}#club-lab .arena-symbol{right:12px;top:80px;font-size:95px}}
+`;document.head.append(arenaTheme);window.nutsPokerLabOpen=()=>page();page()})();
