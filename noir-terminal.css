@@ -86,3 +86,6 @@ body .bottom-nav::-webkit-scrollbar{display:none}
 body .bottom-nav button{flex:0 0 105px!important;min-width:105px!important;min-height:54px!important;padding:12px 9px!important;margin:0!important;display:flex;align-items:center;justify-content:center;white-space:nowrap;font-size:12px!important;line-height:1.25!important;scroll-snap-align:center;touch-action:manipulation;border-radius:12px!important}
 body .bottom-nav button:focus-visible{outline:3px solid #f2d294!important;outline-offset:2px}
 @media(min-width:850px){body .bottom-nav{justify-content:center!important}body .bottom-nav button{flex:0 1 145px!important;min-width:105px!important}}
+
+/* Larger, easier-to-tap navigation buttons */
+body .bottom-nav button{min-height:66px!important;padding:17px 10px!important}
