@@ -1,0 +1,34 @@
+/* NUTS CLUB — NOIR TERMINAL / visual-only layer v1 */
+:root{--nc-bg:#070b12;--nc-surface:#111923;--nc-gold:#dcb879;--nc-ink:#f5f7fb;--nc-muted:#9aa8b9;--nc-line:#334252;--nc-cyan:#78dce4}
+body{background:radial-gradient(ellipse at 50% -8%,#243548 0%,transparent 43%),linear-gradient(180deg,#080e16,#07090e 70%);color:var(--nc-ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{max-width:700px}header{position:relative}header h1{color:#f6f7f9;text-shadow:0 0 32px #e6c58b35;font-weight:850;letter-spacing:.16em}header p{color:var(--nc-muted)}
+header:after{content:"MEMBERS ONLY  /  PRIVATE TERMINAL";display:block;margin:12px auto 0;color:var(--nc-gold);font-size:9px;letter-spacing:.28em;opacity:.85}
+.panel,.stat,.ticket,.occupancy-card,.vip-progress-panel,.nuts-tournament{background:linear-gradient(155deg,#17212d,#0c111a 72%)!important;border:1px solid var(--nc-line)!important;box-shadow:inset 0 1px #ffffff0d,0 12px 28px #0004}
+.panel{border-radius:20px}.panel h2,.panel h3,.occupancy-heading,.vip-progress-head h2{color:#f7f8fc!important;letter-spacing:.035em}
+.small,.vip-card-caption,.vip-progress-label,.ticket p,.occupancy-card #occupancyUpdated{color:var(--nc-muted)}
+.stat b,.nuts-stats strong,.occupancy-stat strong{color:#f0ce91!important;font-variant-numeric:tabular-nums}
+.stat,.occupancy-stat,.nuts-stats>div{background:#0c1420!important;border:1px solid #293a4a!important;border-radius:14px}
+input,select,textarea,.talk-comments textarea,#talk-body{background:#0c1420!important;color:#f4f7fb!important;border:1px solid #3a4b5d!important}
+input:focus,select:focus,textarea:focus{outline:2px solid #d5b57988;outline-offset:1px}
+button{background:linear-gradient(110deg,#ad8750,#f1d5a0 48%,#b68b4e);color:#10141b}
+button.secondary,.talk-actions button,.talk-filter,.talk-modes button{background:#182535!important;border:1px solid #394d60!important;color:#e2eaf2!important}
+button:focus-visible,[data-tab]:focus-visible,summary:focus-visible{outline:2px solid #eac88b;outline-offset:3px}
+.bottom-nav{gap:7px;background:#080f19f7!important;border-top:1px solid #34485a!important;box-shadow:0 -15px 35px #0007;padding-top:12px;scrollbar-width:none}.bottom-nav::-webkit-scrollbar{display:none}
+.bottom-nav button{position:relative;min-width:90px;border:1px solid #2b3a4c!important;border-radius:12px;background:linear-gradient(180deg,#192432,#111924)!important;color:#aab8c8!important;box-shadow:inset 0 1px #ffffff0b;font-size:11px;font-weight:750;letter-spacing:.025em;transition:background .2s,border-color .2s,box-shadow .2s}
+.bottom-nav button[aria-current="page"]{background:linear-gradient(135deg,#3a3327,#171f2b)!important;color:#ffe0a5!important;border-color:#d1a969!important;box-shadow:inset 0 1px #ffe3ae30,0 0 18px #cba46424}
+.bottom-nav button[aria-current="page"]:after{content:"";position:absolute;left:22%;right:22%;bottom:3px;height:2px;border-radius:5px;background:#efc982;box-shadow:0 0 10px #e6b95c}
+.vip-card{box-shadow:0 24px 55px #000c,0 0 35px #b9914720,inset 0 0 0 1px #ffffff14}
+.vip-progress-track{background:#080e16}
+.talk-post,.talk-alerts{background:linear-gradient(145deg,#172331,#0d1520)!important;border:1px solid #344657!important;border-radius:17px!important;box-shadow:0 10px 28px #0004}
+.talk-post-meta{color:#d9b77a!important;letter-spacing:.02em}.talk-post-meta span{color:#94a7b8}.talk-post-body{color:#f1f4f8;line-height:1.75}
+.talk-comment{border-top:1px solid #304154}.talk-filter.selected{background:linear-gradient(115deg,#c29b61,#f0d39b)!important;color:#121721!important;border-color:#e9c88d!important}
+.talk-actions button{border-radius:10px!important}.talk-actions button:hover,.bottom-nav button:hover{border-color:#a58b61!important}
+.nuts-rank-scene{color:#f4f6fb}.nuts-rank-heading{text-align:center;padding:24px 12px;background:radial-gradient(ellipse at top,#29364a 0%,transparent 75%);border-bottom:1px solid #3b4a58}
+.nuts-rank-heading h2{color:#f8f9fc!important;letter-spacing:.13em;text-shadow:0 0 22px #e3bd7940}.nuts-rank-heading p{color:#a9b7c5!important}.nuts-rank-brand,.nuts-rank-month{color:#eac78b!important;letter-spacing:.13em}
+.nuts-rank-champion{border-color:#d3ad69!important;box-shadow:0 0 35px #d5aa6030,0 22px 40px #0007!important}
+.nuts-rank-champion-name{color:#fff8e9!important}.nuts-rank-champion-score{color:#f4ce8d!important;font-variant-numeric:tabular-nums}
+.nuts-rank-runner{border-color:#435365!important;box-shadow:0 12px 28px #0005!important}.nuts-rank-runner.silver{border-color:#9caec3!important}.nuts-rank-runner.bronze{border-color:#a77759!important}
+.nuts-rank-fold{border-color:#394a5c!important}.nuts-rank-fold-toggle{color:#f1d098!important;background:#172330!important}
+.nuts-rank-line,.nuts-rank-table-head{border-color:#344355!important}.nuts-rank-line:nth-child(odd){background:#17233355}.nuts-rank-user{color:#f2f5fa!important}.nuts-rank-value{color:#d9c397!important;font-variant-numeric:tabular-nums}
+.nuts-rank-prizes{border-color:#3c4d5f!important}.nuts-rank-prizes h3{color:#f4f6fb!important}
+@media(prefers-reduced-motion:reduce){.bottom-nav button{transition:none}}
