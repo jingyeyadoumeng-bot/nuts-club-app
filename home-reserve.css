@@ -1,0 +1,28 @@
+/* NUTS CLUB — PRIVATE RESERVE / home-only structural redesign */
+.nuts-home-active .wrap{max-width:700px}
+.nuts-home-active #club-home{position:relative!important;display:block;min-height:275px;margin:18px 0 26px!important;padding:25px 28px 28px!important;overflow:hidden;text-align:left!important;border-radius:5px 5px 24px 5px!important;border:1px solid #7b674c!important;background:radial-gradient(circle at 90% 15%,#a78b5530,transparent 35%),linear-gradient(125deg,#121b25 0%,#090e16 68%,#171b21 100%)!important;box-shadow:0 22px 55px #000a,inset 0 1px #fff2!important}
+.nuts-home-active #club-home:before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#ad8549,#f2dcaa,#5c4933)}
+.nuts-home-active #club-home:after{content:"♠";position:absolute;right:8%;top:54px;font:200px Georgia,serif;color:#c7a46a0c;pointer-events:none;line-height:1}
+.reserve-topline{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:20px;border-bottom:1px solid #e6c99930}
+.reserve-mark{font:700 13px Georgia,serif;letter-spacing:.19em;color:#f7e9c9}
+.reserve-edition{font-size:9px;letter-spacing:.13em;color:#b6b8bd}
+.reserve-kicker{position:relative;z-index:1;margin-top:27px;font-size:10px;letter-spacing:.24em;color:#d8b77d;font-weight:700}
+.nuts-home-active #club-home h2{position:relative;z-index:1;margin:11px 0 15px!important;font:600 clamp(37px,8vw,59px)/.99 Georgia,'Times New Roman',serif!important;letter-spacing:-.035em!important;color:#f9f7f1!important;text-shadow:none!important}
+.nuts-home-active #club-home h2 em{font-style:italic;font-weight:400;color:#d7b982}
+.nuts-home-active #club-home .reserve-description{position:relative;z-index:1;color:#e2e6ea!important;font-size:13px!important;letter-spacing:.08em!important}
+.reserve-rule{display:flex;align-items:center;justify-content:space-between;margin-top:27px;padding-top:13px;border-top:1px solid #e6c9992b;color:#b4a27e;font-size:9px;letter-spacing:.18em}
+.nuts-home-active #club-profile #vip-card{position:relative;margin:12px auto 14px!important;max-width:480px;box-shadow:0 25px 70px #000c,0 0 0 1px #e7c99150!important}
+.nuts-home-active #club-profile .vip-card-caption{text-align:center;color:#d8c69f!important;font-size:10px!important;letter-spacing:.27em!important;margin:15px 0 28px!important}
+.nuts-home-active #club-profile .stats{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px!important;margin:12px 0 24px!important}
+.nuts-home-active #club-profile .stats .stat{min-width:0;padding:17px 10px!important;text-align:left;background:#111b27!important;border:1px solid #425364!important;border-radius:5px 14px 5px 14px!important;font-size:11px;color:#c5d0dc!important;box-shadow:inset 0 1px #ffffff12!important}
+.nuts-home-active #club-profile .stats .stat b{display:block;margin-top:10px;font-size:clamp(19px,4.7vw,30px)!important;line-height:1.15;color:#f3d6a1!important;overflow-wrap:anywhere}
+.reserve-quick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:8px 0 25px}
+.reserve-quick button,.reserve-quick button:not(.secondary){display:flex;align-items:center;gap:11px;min-width:0;min-height:82px;margin:0;padding:14px!important;text-align:left;background:linear-gradient(130deg,#202c3a,#101923)!important;background-image:linear-gradient(130deg,#202c3a,#101923)!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border:1px solid #465b70!important;border-radius:12px!important;box-shadow:0 8px 20px #0005!important}
+.reserve-quick button>span:nth-child(2){flex:1;min-width:0}
+.reserve-quick-icon{display:grid;place-items:center;flex:0 0 33px;height:33px;border:1px solid #aa8b59;border-radius:10px;font-size:20px;color:#ebd2a1}
+.reserve-quick strong{display:block;color:#f5f5f5;font-size:12px;letter-spacing:.09em}
+.reserve-quick small{display:block;color:#c2ceda;font-size:10px;margin-top:5px}
+.reserve-quick-arrow{color:#d9b878;font-size:17px}
+.nuts-home-active #home-tournament{margin-top:10px!important;padding:22px!important;border-radius:14px!important;background:linear-gradient(135deg,#172330,#0c121b)!important;border:1px solid #6b5c47!important}
+.nuts-home-active #home-tournament h2{color:#f3e4c8!important}
+@media(max-width:480px){.nuts-home-active #club-home{padding:22px 19px!important;min-height:265px}.reserve-edition{font-size:8px}.nuts-home-active #club-profile .stats .stat{padding:14px 8px!important;font-size:10px}.reserve-quick{gap:8px}.reserve-quick button,.reserve-quick button:not(.secondary){padding:10px!important;gap:7px;min-height:76px}.reserve-quick-icon{flex-basis:28px;height:28px;font-size:17px}.reserve-quick strong{font-size:10px}.reserve-quick small{font-size:9px}}
