@@ -32,3 +32,12 @@ button:focus-visible,[data-tab]:focus-visible,summary:focus-visible{outline:2px 
 .nuts-rank-line,.nuts-rank-table-head{border-color:#344355!important}.nuts-rank-line:nth-child(odd){background:#17233355}.nuts-rank-user{color:#f2f5fa!important}.nuts-rank-value{color:#d9c397!important;font-variant-numeric:tabular-nums}
 .nuts-rank-prizes{border-color:#3c4d5f!important}.nuts-rank-prizes h3{color:#f4f6fb!important}
 @media(prefers-reduced-motion:reduce){.bottom-nav button{transition:none}}
+
+/* TALK action buttons: readable contrast */
+.talk-actions button,.talk-comment button{background:#223348!important;color:#f4f7fb!important;border:1px solid #526b83!important;text-shadow:none!important;opacity:1!important}
+.talk-actions button[data-like]{color:#f4c5b8!important}
+.talk-actions button[data-report],.talk-actions button[data-delete]{background:#192635!important;color:#c8d6e4!important}
+.talk-post small{display:block;margin:0 0 10px;color:#bac9d8!important}
+.talk-actions button{padding:10px 13px!important;min-height:40px;border-radius:10px!important;font-weight:700!important}
+.bottom-nav{justify-content:flex-start!important}
+@media(min-width:900px){.bottom-nav{justify-content:center!important}.bottom-nav button{flex:0 1 140px!important;min-width:0!important}}
