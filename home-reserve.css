@@ -32,3 +32,9 @@
 
 /* Entire decorative hero removed at user request */
 #club-home,#club-home[hidden],.nuts-home-active #club-home{display:none!important;visibility:hidden!important;margin:0!important;padding:0!important;min-height:0!important;height:0!important;border:0!important;box-shadow:none!important}
+
+/* Remove leftover hero/spade spacing and decorative pseudo-elements */
+#club-home,#club-home[hidden],.nuts-home-active #club-home{display:none!important;position:absolute!important;width:0!important;height:0!important;min-height:0!important;max-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
+#club-home::before,#club-home::after,.nuts-home-active #club-home::before,.nuts-home-active #club-home::after{content:none!important;display:none!important}
+.nuts-home-active #club-profile #vip-card{margin-top:0!important}
+.nuts-home-active #club-profile{margin-top:0!important;padding-top:0!important}
