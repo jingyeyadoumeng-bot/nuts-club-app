@@ -1,4 +1,4 @@
-const vipRanks=[['BRONZE',0],['SILVER',5000],['GOLD',15000],['PLATINUM',30000],['BLACK VIP',50000]];
+const vipRanks=[['BRONZE',0],['SILVER',5000],['GOLD',25000],['PLATINUM',100000],['BLACK VIP',300000]];
 async function refreshVipRank(){
  if(!session?.user?.id||document.getElementById('member')?.hidden)return;
  try{
