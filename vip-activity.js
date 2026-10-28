@@ -2,7 +2,7 @@
 'use strict';
 const fmt=n=>Number(n||0).toLocaleString('ja-JP');
 function sessionId(){return window.session?.user?.id||JSON.parse(localStorage.getItem('nuts_session')||'{}')?.user?.id}
-async function rpc(name){return await window.request('/rest/v1/rpc/'+name,{method:'POST',body:JSON.stringify({})})}
+async function rpc(name){return await request('/rest/v1/rpc/'+name,'POST',{})}
 function panel(){let el=document.getElementById('nuts-vip-activity');if(el)return el;const anchor=document.querySelector('.vip-progress-panel');if(!anchor)return null;el=document.createElement('section');el.id='nuts-vip-activity';el.className='nuts-vip-activity';el.innerHTML='<div class="nuts-vip-kicker">♛ VIP MEMBERSHIP STATUS</div><h2>VIPランク維持状況</h2><div id="nuts-vip-activity-body">確認中...</div>';anchor.insertAdjacentElement('afterend',el);return el}
 function bar(label,amount,target,unit){const percent=Math.min(100,Math.round(amount/target*100));return '<div class="nuts-vip-metric"><div class="nuts-vip-metric-line"><span>'+label+'</span><strong>'+fmt(amount)+' / '+fmt(target)+' '+unit+'</strong></div><div class="nuts-vip-bar"><span style="width:'+percent+'%"></span></div></div>'}
 async function vip(){if(!sessionId())return;const host=panel();if(!host)return;try{const data=(await rpc('nuts_member_vip_progress'))?.[0];if(!data)return;const tier=data.current_tier;const body=document.getElementById('nuts-vip-activity-body');if(!body)return;let pointTarget=tier==='BLACK VIP'?40000:tier==='PLATINUM'?15000:0;let visitTarget=tier==='BLACK VIP'?12:tier==='PLATINUM'?6:0;
