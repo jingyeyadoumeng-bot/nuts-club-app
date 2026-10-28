@@ -41,3 +41,19 @@ button:focus-visible,[data-tab]:focus-visible,summary:focus-visible{outline:2px 
 .talk-actions button{padding:10px 13px!important;min-height:40px;border-radius:10px!important;font-weight:700!important}
 .bottom-nav{justify-content:flex-start!important}
 @media(min-width:900px){.bottom-nav{justify-content:center!important}.bottom-nav button{flex:0 1 140px!important;min-width:0!important}}
+
+/* Accessibility-first contrast pass */
+body #member,body #member p,body #member label{color:#f0f4fa}
+body #member .panel p,body #member .ticket p,body #member .talk-post small{color:#c8d4e2!important}
+body #member .talk-post{background:#131f2d!important;border-color:#51677c!important}
+body #member .talk-post-body{color:#fff!important;font-size:16px!important;line-height:1.7}
+body #member .talk-post-meta{color:#f3d394!important}
+body #member .talk-actions button,body #member .talk-comment button,body #member .talk-alerts button{background:#30455c!important;background-image:none!important;color:#ffffff!important;-webkit-text-fill-color:#ffffff!important;border:1px solid #8296a9!important;opacity:1!important;font-weight:750!important;text-shadow:none!important;box-shadow:none!important}
+body #member .talk-actions button[data-report],body #member .talk-actions button[data-delete]{background:#253548!important;color:#edf3f9!important;-webkit-text-fill-color:#edf3f9!important}
+body #member .talk-actions button[data-like]{color:#ffe0da!important;-webkit-text-fill-color:#ffe0da!important}
+body #member .talk-filter{background:#26374b!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border:1px solid #6d8296!important}
+body #member .talk-filter.selected{background:#e3bd7d!important;color:#101923!important;-webkit-text-fill-color:#101923!important}
+body .bottom-nav button{color:#e4ecf5!important;-webkit-text-fill-color:#e4ecf5!important;background:#1b293a!important;background-image:none!important;border-color:#52677b!important;font-size:12px!important}
+body .bottom-nav button[aria-current="page"]{color:#171b22!important;-webkit-text-fill-color:#171b22!important;background:#e6c384!important;background-image:none!important;border-color:#f3d69e!important}
+body #member button:not(.talk-filter):not([data-tab]):not([data-like]):not([data-comment]):not([data-report]):not([data-delete]){color:#101820}
+@media(max-width:600px){body #member .talk-actions button{font-size:13px!important;padding:10px!important}body .bottom-nav button{min-width:100px!important}}
