@@ -79,3 +79,10 @@ body #member button:not(.talk-filter):not([data-tab]):not([data-like]):not([data
 .nuts-home-active #home-tournament h2{color:#f8ebd1!important;letter-spacing:.08em}
 .nuts-home-active #home-tournament .home-tournament-head button{background:#26374b!important;color:#f3e3c6!important;border:1px solid #8a7757!important}
 @media(max-width:420px){.nuts-home-active #club-home{padding:24px 10px!important}.nuts-home-active #club-profile .stats .stat{padding:15px 10px!important;font-size:11px}.nuts-home-active #club-profile #vip-card{min-height:215px}}
+
+/* Touch-friendly bottom navigation: every tab reachable without tiny tap targets */
+body .bottom-nav{display:flex!important;justify-content:flex-start!important;align-items:stretch!important;gap:8px!important;overflow-x:auto!important;overscroll-behavior-x:contain;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;touch-action:pan-x;padding:10px 12px calc(12px + env(safe-area-inset-bottom))!important;scrollbar-width:none}
+body .bottom-nav::-webkit-scrollbar{display:none}
+body .bottom-nav button{flex:0 0 105px!important;min-width:105px!important;min-height:54px!important;padding:12px 9px!important;margin:0!important;display:flex;align-items:center;justify-content:center;white-space:nowrap;font-size:12px!important;line-height:1.25!important;scroll-snap-align:center;touch-action:manipulation;border-radius:12px!important}
+body .bottom-nav button:focus-visible{outline:3px solid #f2d294!important;outline-offset:2px}
+@media(min-width:850px){body .bottom-nav{justify-content:center!important}body .bottom-nav button{flex:0 1 145px!important;min-width:105px!important}}
