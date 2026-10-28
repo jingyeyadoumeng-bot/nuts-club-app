@@ -57,3 +57,25 @@ body .bottom-nav button{color:#e4ecf5!important;-webkit-text-fill-color:#e4ecf5!
 body .bottom-nav button[aria-current="page"]{color:#171b22!important;-webkit-text-fill-color:#171b22!important;background:#e6c384!important;background-image:none!important;border-color:#f3d69e!important}
 body #member button:not(.talk-filter):not([data-tab]):not([data-like]):not([data-comment]):not([data-report]):not([data-delete]){color:#101820}
 @media(max-width:600px){body #member .talk-actions button{font-size:13px!important;padding:10px!important}body .bottom-nav button{min-width:100px!important}}
+
+/* HOME / PRIVATE RESERVE — scoped to the existing home state */
+.nuts-home-active #club-home{position:relative;overflow:hidden;margin:22px 0 7px;padding:28px 18px 24px!important;border:1px solid #786347!important;border-radius:20px;background:radial-gradient(ellipse at 50% 0%,#b38c4530,transparent 58%),linear-gradient(145deg,#1b2028,#0b111a 78%)!important;box-shadow:0 20px 48px #0009,inset 0 1px #f3d6a02b}
+.nuts-home-active #club-home:before{content:"";position:absolute;top:0;left:24%;right:24%;height:1px;background:linear-gradient(90deg,transparent,#f5d69b,transparent)}
+.nuts-home-active #club-home .luxury-eyebrow{color:#d9b980!important;font-size:10px;letter-spacing:.27em;font-weight:650}
+.nuts-home-active #club-home h2{font:700 clamp(21px,5vw,28px) Georgia,serif!important;color:#fff4df!important;letter-spacing:.1em;margin:11px 0!important;text-shadow:0 2px 22px #d9ad6b40}
+.nuts-home-active #club-home p{color:#c6d0dc!important;letter-spacing:.12em;font-size:11px!important}
+.nuts-home-active #club-profile #vip-card{margin:15px 0 11px!important;border-width:1.5px!important;border-radius:20px!important;box-shadow:0 26px 60px #000d,0 0 0 4px #c7a05e12,0 0 35px #d2a65a26,inset 0 1px #ffffff40!important;transform:translateZ(0)}
+.nuts-home-active #club-profile #vip-card:before{inset:9px;border-radius:13px}
+.nuts-home-active #club-profile #vip-card .vip-brand{font-size:clamp(29px,7vw,41px)!important;letter-spacing:.2em!important;text-shadow:0 3px 15px #000a,0 0 18px #fff5}
+.nuts-home-active #club-profile #vip-card .vip-subbrand{letter-spacing:.65em!important}
+.nuts-home-active #club-profile #vip-card .vip-card-top{color:#fff0ce;font-size:10px}
+.nuts-home-active #club-profile #vip-card .vip-card-bottom #name{color:#fff7e9;font-weight:750}
+.nuts-home-active #club-profile .vip-card-caption{color:#c8ae7e!important;font-size:10px!important;letter-spacing:.25em!important;margin:16px 0 20px!important}
+.nuts-home-active #club-profile .stats{gap:11px!important;margin:16px 0 20px!important}
+.nuts-home-active #club-profile .stats .stat{position:relative;overflow:hidden;background:linear-gradient(145deg,#1d2734,#0d1520)!important;border:1px solid #425466!important;border-radius:16px!important;padding:19px 15px!important;color:#c7d3e0!important;font-size:12px;box-shadow:inset 0 1px #ffffff12,0 12px 26px #0005}
+.nuts-home-active #club-profile .stats .stat:before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#d4b275,transparent)}
+.nuts-home-active #club-profile .stats .stat b{font-size:clamp(24px,6vw,32px)!important;letter-spacing:.015em;margin-top:12px!important;color:#f5d79b!important}
+.nuts-home-active #home-tournament{background:linear-gradient(140deg,#192431,#0c141e)!important;border:1px solid #485c70!important;border-radius:18px!important;box-shadow:0 16px 35px #0006!important}
+.nuts-home-active #home-tournament h2{color:#f8ebd1!important;letter-spacing:.08em}
+.nuts-home-active #home-tournament .home-tournament-head button{background:#26374b!important;color:#f3e3c6!important;border:1px solid #8a7757!important}
+@media(max-width:420px){.nuts-home-active #club-home{padding:24px 10px!important}.nuts-home-active #club-profile .stats .stat{padding:15px 10px!important;font-size:11px}.nuts-home-active #club-profile #vip-card{min-height:215px}}
