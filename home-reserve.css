@@ -29,3 +29,6 @@
 
 .nuts-home-active .reserve-quick{display:grid}
 #club-home[hidden]{display:none!important}
+
+/* Entire decorative hero removed at user request */
+#club-home,#club-home[hidden],.nuts-home-active #club-home{display:none!important;visibility:hidden!important;margin:0!important;padding:0!important;min-height:0!important;height:0!important;border:0!important;box-shadow:none!important}
