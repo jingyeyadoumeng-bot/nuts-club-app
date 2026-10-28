@@ -34,3 +34,6 @@ GitHub changes on main trigger Render deployment. Always inspect current files a
 
 ## How to continue in another ChatGPT conversation
 Ask: 'Continue development of NUTS CLUB. Read DEVELOPMENT-HANDOFF.md in GitHub jingyeyadoumeng-bot/nuts-club-app, inspect latest code and Render status, then implement my requested changes safely.'
+
+## AI edit feature status (2026-10-28)
+Owner-only AI edit request draft UI added to staff.html/staff.js. It saves text locally and can copy a prompt to ChatGPT. **No AI API, GitHub write backend, proposal approval, or automated publish is connected yet.** Publish button deliberately disabled. Required next: authenticated owner-only server function, secrets OPENAI_API_KEY and scoped GITHUB_TOKEN stored server-side, immutable change proposals, diff preview, owner approval, server-side revalidation of GitHub SHA, audit log, deployment status and rollback. Obtain user authorization for paid API usage and configure keys securely before enabling.
